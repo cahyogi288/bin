@@ -1,47 +1,12 @@
 <template>
-  <v-app>
-    <!-- <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+  <!-- <v-app> -->
+    
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar> -->
-
-    <v-main>
-      <router-view></router-view>
+    <!-- <v-main> -->
+      <router-view />
       <!-- <HelloWorld/> -->
-    </v-main>
-  </v-app>
+    <!-- </v-main>
+  </v-app> -->
 </template>
 
 <script>
@@ -56,6 +21,96 @@ export default {
 
   data: () => ({
     //
+     drawers: ['Default (no property)', 'Permanent', 'Temporary'],
+    primaryDrawer: {
+      model: null,
+      model2: false,
+      type: 'default (no property)',
+      clipped: true,
+      floating: false,
+      mini: false
+    },
+    footer: {
+      inset: false
+    },
+
+    items: [
+          { title: 'Home', icon: 'mdi-home', link: '/'},
+          // { title: 'Dashboard', icon: 'mdi-view-dashboard', link: '/' },
+          // { title: 'Sertifikat', icon: 'mdi-account', link: '/sertifikat'},
+          { title: 'Pengawas', icon: 'mdi-help-box', link: '/pengawas' },
+        ],
+    listSidebar: [
+    	{
+        action: 'mdi-file-document',
+        title: 'Sertifikat',
+        active: true,
+        items: [
+          { title: 'COA dan COW CIF' },
+          { title: 'COA dan COW FOB' },
+          { title: 'COA dan COW TRANS' },
+          { title: 'COA dan COW CFR' },
+          ],
+        },
+        {
+        	action: '',
+        	title: 'Shipment CIF',
+        	items: [
+        	{ title: 'Loading'},
+        	{ title: 'Upload COA'},
+        	{ title: 'Entri COA'},
+        	{ title: 'Izin Sandar & Bongkar'}]
+        },
+        {
+        	action: '',
+        	title: 'Shipment CFR',
+        	items: [
+        	{ title: 'Konfirmasi Jadwal'},
+        	{ title: 'Upload ROA'}]
+        },
+        {
+        	action: 'mdi-cog',
+        	title: 'Account Setting',
+        	items: [
+        	{ title: 'Account Profile'},
+        	{ title: 'Account Password'}]
+        }
+      ],
+      listBar:[
+      { 
+      	title: 'Pengendalian',
+      	icon: 'mdi-microsoft-xbox-controller-menu',
+      	children: [
+      	{ 
+      		title: 'Harga Bulanan',
+      		children: [
+      		{ title: 'HSD/BBM'},
+      		{ title: 'Kurs Tengah'}]
+      	},
+      	{
+      		title: 'Flow Transaksi',
+      		icon: '',
+      		children:[
+      		{ title: 'Kewajiban Pemasok'},
+      		{ 
+      			title: 'CFR/Trucking',
+      			children: [
+      			{
+      				title: 'Approval Kebutuhan'
+      			},
+      			{ title: 'Monitoring Jadwal'}
+      			]
+      		},
+      		{ title: 'Nota Dinas'}]
+      	}
+      	]
+      }],
+     cruds: [
+        ['Create', 'mdi-add'],
+        ['Read', 'mdi-insert_drive_file'],
+        ['Update', 'mdi-update'],
+        ['Delete', 'mdi-delete'],
+      ],
   }),
 };
 </script>
