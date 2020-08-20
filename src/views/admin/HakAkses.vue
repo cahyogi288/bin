@@ -1,8 +1,9 @@
 <template>
-    <v-app>
-        <!-- <Sidebar/> -->
-    
-        <v-main>
+    <v-app style="background-color: #E0E0E0">
+        <Sidebar/>
+        <Appbar />
+
+        <v-main style="margin-top: 10px;">
             <v-container fluid>
                 <v-card>
                     <v-card-title>
@@ -25,14 +26,20 @@
             </v-container>
         </v-main>
 
+        <Footer />
     </v-app>
 </template>
 
 <script>
 import Sidebar from '@/components/Sidebar.vue'
+import Appbar from '@/components/Appbar.vue'
+import Footer from '@/components/Footer.vue'
+
 export default {
     components: {
         Sidebar,
+        Appbar,
+        Footer
     },
     data() {
         return {
