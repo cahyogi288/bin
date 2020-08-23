@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Hakakses from '../views/admin/HakAkses.vue'
-import Sidebar from '../components/Sidebar.vue'
+import Beranda from '../views/user/beranda.vue'
+import Bdi from '../views/user/bdi.vue'
 
 Vue.use(VueRouter)
 
@@ -27,14 +28,19 @@ const routes = [{
         component: Login
     },
     {
-        path: '/sidebar',
-        name: 'sidebar',
-        component: Sidebar
-    },
-    {
         path: '/hakakses',
         name: 'Hak-Akses',
         component: Hakakses
+    },
+    {
+        path: '/beranda',
+        name: 'Beranda',
+        component: Beranda
+    },
+    {
+        path: '/bdi',
+        name: 'BDI',
+        component: Bdi
     },
 ]
 
