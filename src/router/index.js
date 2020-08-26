@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Hakakses from '../views/admin/HakAkses.vue'
 import Sidebar from '../components/Sidebar.vue'
+import Informasi from '../views/admin/Informasi.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,11 @@ const routes = [{
         path: '/hakakses',
         name: 'Hak-Akses',
         component: Hakakses
+    },
+    {
+        path: '/informasi',
+        name: 'Informasi',
+        component: Informasi
     },
 ]
 
