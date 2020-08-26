@@ -7,17 +7,17 @@
             <v-spacer></v-spacer>
 
             <v-menu
-            left
-            bottom
+            offset-y
             >
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                    icon
+                    text
                     v-bind="attrs"
                     v-on="on">
-                        <v-icon>mdi-account</v-icon>
+                        <v-icon left>mdi-account-outline</v-icon>
+                        Admin
                     </v-btn>
-                    <span>Admin</span>
+                    
                 </template>
                 
                 <v-list>

@@ -22,7 +22,7 @@
                             :key="item.title"
                             link>
                                 <v-list-item-action>
-                                    <v-icon>{{ item.icon }}</v-icon>
+                                    <v-icon class="white--text">{{ item.icon }}</v-icon>
                                 </v-list-item-action>
 
                                 <v-list-item-content>
@@ -37,7 +37,7 @@
                             v-for="link in links"
                             :key="link"
                             link>
-                            <v-list-item-title v-text="link"></v-list-item-title>
+                            <v-list-item-title class="white--text" v-text="link"></v-list-item-title>
                         </v-list-item>
                         </v-list>
                 </v-row>
