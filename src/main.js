@@ -2,8 +2,12 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify';
+import InputTag from 'vue-input-tag'
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
+Vue.component('input-tag', InputTag)
 Vue.config.productionTip = false
+Vue.use( CKEditor );
 
 new Vue({
   router,
