@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Hakakses from '../views/admin/HakAkses.vue'
 import Beranda from '../views/user/beranda.vue'
 import Bdi from '../views/user/bdi.vue'
 import Informasi from '../views/admin/Informasi.vue'
+import Home from '../views/admin/Home.vue'
 import Sidebar from '../components/Sidebar.vue'
 
 Vue.use(VueRouter)
