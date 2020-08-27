@@ -263,13 +263,23 @@
                                             </v-col>
                                             <v-col md="9" cols="9">
                                                 <v-select
+                                                v-model="dataEdit.negara"
+                                                :items="itemCountry"
+                                                item-text="name"
+                                                item-value="iso"
+                                                filled
+                                                placeholder="Negara"
+                                                outlined
+                                                dense>
+                                                </v-select>
+                                                <!-- <v-select
                                                     v-model="dataEdit.negara"
                                                     :items="items"
                                                     filled
                                                     placeholder="Negara"
                                                     outlined
                                                     dense>
-                                                    </v-select>
+                                                    </v-select> -->
                                             </v-col>
                                         </v-row>
 
