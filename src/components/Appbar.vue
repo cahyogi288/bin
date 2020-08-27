@@ -2,6 +2,7 @@
     <div>
         <v-app-bar
         app
+        absolute
         style="margin: 10px;"
         class="rounded-lg white">
             <v-spacer></v-spacer>
@@ -24,7 +25,7 @@
                     <v-list-item
                     v-for="n in listRight"
                     :key="n"
-                    @click="() => {}">
+                    @click="logout">
                         <v-list-item-title>{{ n }}</v-list-item-title>
                     </v-list-item>
                 </v-list>
@@ -40,6 +41,12 @@ export default {
     data() {
         return {
             listRight: ["Logout"]
+        }
+    },
+    methods: {
+        logout() {
+            localStorage.removeItem('descUser')
+            this.$router.replace({ path : '/login' })
         }
     },
 }

@@ -11,11 +11,11 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn text>
+        <v-btn link to="/beranda" text>
             Beranda
         </v-btn>
 
-        <v-btn text>
+        <v-btn text to="/bdi" link>
             BDI
         </v-btn>
 
@@ -84,7 +84,7 @@
                 <v-list-item
                 v-for="n in listRight"
                 :key="n"
-                @click="() => {}">
+                @click="logout">
                     <v-list-item-title>{{ n }}</v-list-item-title>
                 </v-list-item>
             </v-list>
@@ -113,6 +113,12 @@ export default {
                 { title: '2019' },
                 { title: '2020' },
             ],
+        }
+    },
+    methods: {
+        logout() {
+            localStorage.removeItem('descUser')
+            this.$router.push({ path: '/login' })
         }
     },
 }

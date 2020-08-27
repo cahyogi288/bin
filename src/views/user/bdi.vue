@@ -18,9 +18,9 @@
                     </div>
                 </v-card>
 
-                <v-row style="padding-left: 10px">
+                <v-row style="">
                     <v-col md="8" cols=12>
-                        <v-card class="grey lighten-4 ml-4">
+                        <v-card class="grey lighten-4 ml-6">
                             <v-row>
                                 <v-col md="12" cols="12">
                                     <v-card class="grey lighten-4" elevation="0">
@@ -103,7 +103,7 @@
                     <v-col md="4" cols="4">
                         <v-card elevation="0">
                             <v-col md="12" cols="12">
-                                <v-card height="100" width="390" class="grey lighten-4">
+                                <v-card height="100" width="385" class="grey lighten-4 mt-n3">
                                     <v-card-text>
                                         <v-form>
                                             <v-row>
@@ -126,7 +126,7 @@
                             </v-col>
                             
                             <v-col md="12" cols="12"> 
-                            <v-card class="grey lighten-4" width="390" elevation="0">
+                            <v-card class="grey lighten-4 mt-n3" width="385" elevation="0">
                                 <v-col md="12" cols="12">
                                     <span class="text-subtitle-1"><strong>Kategori</strong></span>
                                 </v-col>
