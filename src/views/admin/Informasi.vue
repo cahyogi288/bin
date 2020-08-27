@@ -236,13 +236,62 @@
                                     <v-btn class="ma-2" tile small color="red" icon title="delete">
                                         <v-icon>mdi-trash-can-outline</v-icon>
                                     </v-btn>
-                                    <v-btn class="ma-2" tile small color="blue" text title="delete">
+                                    <v-btn class="ma-2" @click="contentDetail" tile small color="blue" text title="delete">
                                         Detail
                                     </v-btn>
                                     <!-- <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
                                     <v-icon small @click="deleteItem(item)">delete</v-icon> -->
                                 </template>
                             </v-data-table>
+                            <v-dialog v-model="dialogDetail" persistent max-width="810px" >
+                                    <v-card>
+                                        <v-card-title>
+                                            <span class="headline">Detail Content</span>
+                                            <v-spacer />
+                                            <v-btn icon color="grey" @click="dialogDetail = false">
+                                                <v-icon>mdi-close</v-icon>
+                                            </v-btn>
+                                        </v-card-title>
+                                        <v-card-text>
+                                            <v-row>
+                                                <v-col md="12" cols="12">
+                                                    <v-row class="">
+                                                        <v-col md="2" cols="3">
+                                                            <label>Foto</label>
+                                                        </v-col>
+                                                        <v-col md="9" cols="9">
+                                                            
+                                                        </v-col>
+                                                    </v-row>
+                                                    <v-row class="">
+                                                        <v-col md="2" cols="3">
+                                                            <label>Caption</label>
+                                                        </v-col>
+                                                        <v-col md="9" cols="9">
+                                                            
+                                                        </v-col>
+                                                    </v-row>
+                                                    <v-row class="">
+                                                        <v-col md="2" cols="3">
+                                                            <label>Negara</label>
+                                                        </v-col>
+                                                        <v-col md="9" cols="9">
+                                                            
+                                                        </v-col>
+                                                    </v-row>
+                                                    <v-row class="">
+                                                        <v-col md="2" cols="3">
+                                                            <label>Tags</label>
+                                                        </v-col>
+                                                        <v-col md="9" cols="9">
+                                                            
+                                                        </v-col>
+                                                    </v-row>
+                                                </v-col>
+                                            </v-row>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-dialog>
                         </div>
                         
                     </template>
@@ -276,15 +325,6 @@ export default {
             kategoris: ['PWNI', 'Terorisme', 'Kejahatan Lintas Batas', 'Separatisme', 'BDI', 'Laporan Bulanan'],
             plusInput: true,
             dataKonten: [],
-            // editor: ClassicEditor,
-            // editorData: '<p>Content of the editor.</p>',
-            // editorConfig: {
-            //     // The configuration of the editor.
-            // },
-            // tag_negara: [
-            //     'Africa',
-            //     'Taiwan'
-            // ],
             content: "<h1>Some initial content</h1>",
             justify: [
                 'start',
@@ -295,6 +335,7 @@ export default {
                 'stretch',
             ],  
             dialog: false,
+            dialogDetail: false,
             search  : '',
             headers : [
                 // {
@@ -346,6 +387,9 @@ export default {
             }else{
                 this.plusInput = false
             }
+        },
+        contentDetail(){
+            this.dialogDetail = true
         },
         getDataKonten(){
             ApiBin.get('Konten/getAll').then( resp => {
