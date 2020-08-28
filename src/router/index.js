@@ -5,6 +5,11 @@ import Login from '../views/Login.vue'
 import Hakakses from '../views/admin/HakAkses.vue'
 import Beranda from '../views/user/beranda.vue'
 import Bdi from '../views/user/bdi.vue'
+import kejahatan from '../views/user/kejahatan.vue'
+import pwni from '../views/user/pwni.vue'
+import separatisme from '../views/user/separatisme.vue'
+import terorisme from '../views/user/terorisme.vue'
+import laporan from '../views/user/laporan.vue'
 import Informasi from '../views/admin/Informasi.vue'
 import Home from '../views/admin/Home.vue'
 import Sidebar from '../components/Sidebar.vue'
@@ -46,9 +51,34 @@ const routes = [{
         component: Beranda
     },
     {
-        path: '/bdi',
-        name: 'BDI',
+        path: '/kategori',
+        name: 'Kategori',
         component: Bdi
+    },
+    {
+        path: '/kejahatan',
+        name: 'Kejahatan',
+        component: kejahatan
+    },
+    {
+        path: '/pwni',
+        name: 'PWNI',
+        component: pwni
+    },
+    {
+        path: '/separatisme',
+        name: 'Separatisme',
+        component: separatisme
+    },
+    {
+        path: '/terorisme',
+        name: 'Terorisme',
+        component: terorisme
+    },
+    {
+        path: '/laporan',
+        name: 'Laporan',
+        component: laporan
     },
 ]
 

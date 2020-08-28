@@ -123,7 +123,8 @@ export default {
                         descUser.push({
                             nim: res.nik,
                             status: res.status,
-                            username: res.username
+                            username: res.username,
+                            countryName: res.countryName
                             })
                         localStorage.setItem('descUser', descUser)
                         // console.log(descUser)

@@ -38,7 +38,7 @@
                                     <v-card-title>
                                         <span class="headline">Tambah Informasi</span>
                                     </v-card-title>
-                                    <v-btn icon color="grey" @click="dialog = false">
+                                    <v-btn icon color="grey" @click="removeForm">
                                         <v-icon>mdi-close</v-icon>
                                     </v-btn>
                                 </div>
@@ -97,12 +97,39 @@
                                             </div>
                                             <div style="flex:3">
                                                 <!-- <input type="text" class="in" placeholder="Waktu Input..."> -->
-                                                <v-text-field
+                                                <v-menu
+                                                    ref="menu"
+                                                    v-model="menu"
+                                                    :close-on-content-click="false"
+                                                    :return-value.sync="dataNew.createdAt"
+                                                    transition="scale-transition"
+                                                    offset-y
+                                                    min-width="290px"
+                                                >
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                        v-model="dataNew.createdAt"
+                                                        placeholder="Waktu Input"
+                                                        readonly
+                                                        background-color="#EEEEEE"
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        outlined
+                                                        dense
+                                                    ></v-text-field>
+                                                    </template>
+                                                    <v-date-picker v-model="dataNew.createdAt" no-title scrollable>
+                                                    <v-spacer></v-spacer>
+                                                    <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                                                    <v-btn text color="primary" @click="$refs.menu.save(dataNew.createdAt)">OK</v-btn>
+                                                    </v-date-picker>
+                                                </v-menu>
+                                                <!-- <v-text-field
                                                 v-model="dataNew.createdAt"
                                                 background-color="#EEEEEE"
                                                 label="Waktu Input"
                                                 outlined
-                                                dense></v-text-field>
+                                                dense></v-text-field> -->
                                             </div>
                                         </div>
                                         <div style="display:flex; flex-direction:row; align-items:center;">
@@ -277,7 +304,7 @@
                                                             <label>Foto</label>
                                                         </v-col>
                                                         <v-col md="9" cols="9">
-                                                            <img :src="dataDetail.foto" alt="" style="object-fit: cover;">
+                                                            <img :src="dataDetail.foto" alt="" style="object-fit: cover; height:200px; width: 200px;">
                                                         </v-col>
                                                     </v-row>
                                                     <v-row class="">
@@ -468,6 +495,7 @@ export default {
             itemCountry: [],
             kategoris: ['PWNI', 'Terorisme', 'Kejahatan Lintas Batas', 'Separatisme', 'BDI', 'Laporan Bulanan'],
             plusInput: true,
+            menu: false,
             dataKonten: [],
             content: "<h1>Some initial content</h1>",
             justify: [
@@ -565,6 +593,21 @@ export default {
         this.getCountry();
     },
     methods:{
+        removeForm(){
+            this.tag_negara = []
+            this.tags = []
+            this.dataNew = {
+                country:[],
+                heading:"",
+                createdAt:"",
+                kategori:"",
+                tags:[],
+                foto:new FormData(),
+                caption:"",
+                informasi:"<h1>Some initial content</h1>",
+            }
+            this.dialog = false
+        },
         newData(){
             // if(this.$refs.form.validate()){
                 // this.dataNew.informasi.push(this.content)

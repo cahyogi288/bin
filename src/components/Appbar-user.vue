@@ -11,11 +11,11 @@
 
         <v-spacer></v-spacer>
 
-        <v-btn link to="/beranda" text>
+        <v-btn link to="/beranda" @click="offDetail" text>
             Beranda
         </v-btn>
 
-        <v-btn text to="/bdi" link>
+        <v-btn text @click="dataContent('BDI')" link>
             BDI
         </v-btn>
 
@@ -37,7 +37,7 @@
                 <v-list-item
                 v-for="(item, index) in items"
                 :key="index"
-                @click=""
+                @click="dataContent(item.title)"
                 >
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item>
@@ -62,7 +62,7 @@
                 <v-list-item
                 v-for="(item, index) in items2"
                 :key="index"
-                @click=""
+                @click="sendTahun(item.title)"
                 >
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item>
@@ -100,22 +100,52 @@ export default {
     data() {
         return {
             expand: false,
+            detailOff: false,
             listRight: ["Logout"],
             items: [
-                { title: 'PWNI' },
-                { title: 'Terorisme' },
-                { title: 'Kejahatan Lintas Batas' },
-                { title: 'Separatisme' },
+                { title: 'PWNI', link: '/bdi' },
+                { title: 'Terorisme', link: '/terorisme' },
+                { title: 'Kejahatan Lintas Batas', link: '/kejahatan' },
+                { title: 'Separatisme', link: '/separatisme' },
             ],
             items2: [
-                { title: '2017' },
+                { title: '2020',  },
+                { title: '2019',  },
                 { title: '2018' },
-                { title: '2019' },
-                { title: '2020' },
+                { title: '2017' },
             ],
         }
     },
     methods: {
+        offDetail(){
+            this.$emit('offDetail', this.detailOff)
+        },
+        dataContent(nameContent){
+            console.log(nameContent)
+            // if(!localStorage.getItem('nameContent')){
+                console.log(this.$router.history.current.fullPath)
+                localStorage.setItem('namaContent', nameContent)
+                if(this.$router.history.current.fullPath == '/kategori'){
+                    this.$router.go()
+                }else{
+                    this.$router.replace({ path: '/kategori' })
+                }
+                
+            
+            // this.$emit('name', nameContent)
+        },
+        sendTahun(tahun){
+            console.log(tahun)
+            // this.$emit('tahun', tahun)
+            // localStorage.setItem('tahun', tahun)
+            console.log(this.$router.history.current.fullPath)
+            localStorage.setItem('tahun', tahun)
+            if(this.$router.history.current.fullPath == '/laporan'){
+                this.$router.go()
+            } else{
+                this.$router.replace({ path: '/laporan' })
+            }         
+        },
         logout() {
             localStorage.removeItem('descUser')
             this.$router.push({ path: '/login' })
