@@ -2,29 +2,30 @@
     <div>
         <v-app-bar
         app
+        absolute
         style="margin: 10px;"
         class="rounded-lg white">
             <v-spacer></v-spacer>
 
             <v-menu
-            left
-            bottom
+            offset-y
             >
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                    icon
+                    text
                     v-bind="attrs"
                     v-on="on">
-                        <v-icon>mdi-account</v-icon>
+                        <v-icon left>mdi-account-outline</v-icon>
+                        Admin
                     </v-btn>
-                    <span>Admin</span>
+                    
                 </template>
                 
                 <v-list>
                     <v-list-item
                     v-for="n in listRight"
                     :key="n"
-                    @click="() => {}">
+                    @click="logout">
                         <v-list-item-title>{{ n }}</v-list-item-title>
                     </v-list-item>
                 </v-list>
@@ -40,6 +41,12 @@ export default {
     data() {
         return {
             listRight: ["Logout"]
+        }
+    },
+    methods: {
+        logout() {
+            localStorage.removeItem('descUser')
+            this.$router.replace({ path : '/login' })
         }
     },
 }

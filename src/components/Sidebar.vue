@@ -10,6 +10,7 @@
             width="230">
                 <v-row class="fill-height" no-gutters>
                     <v-navigation-drawer
+                    class=""
                     mini-variant
                     mini-variant-width="56"
                     color="#FF5252"
@@ -20,9 +21,10 @@
                             <v-list-item
                             v-for="item in items"
                             :key="item.title"
+                            :to="item.link"
                             link>
                                 <v-list-item-action>
-                                    <v-icon>{{ item.icon }}</v-icon>
+                                    <v-icon class="white--text">{{ item.icon }}</v-icon>
                                 </v-list-item-action>
 
                                 <v-list-item-content>
@@ -32,12 +34,13 @@
                         </v-list>
                     </v-navigation-drawer> 
 
-                        <v-list class="grow">
+                        <v-list class="mt-1 grow">
                             <v-list-item
                             v-for="link in links"
-                            :key="link"
+                            :key="link.name"
+                            :to="link.link"
                             link>
-                            <v-list-item-title v-text="link"></v-list-item-title>
+                            <v-list-item-title class="white--text" v-text="link.name"></v-list-item-title>
                         </v-list-item>
                         </v-list>
                 </v-row>
@@ -55,11 +58,15 @@ export default {
         return {
             drawer: true,
             items: [
-            { title: 'Beranda', icon: 'mdi-home' },
-            { title: 'Pengguna', icon: 'mdi-account-plus' },
-            { title: 'Informasi', icon: 'mdi-alert-circle' },
+            { title: 'Beranda', icon: 'mdi-home', link: '/' },
+            { title: 'Pengguna', icon: 'mdi-account-plus', link: '/hakakses' },
+            { title: 'Informasi', icon: 'mdi-alert-circle', link: 'informasi' },
             ],
-            links: ['Beranda', 'Pengguna', 'Informasi'],
+            links: [
+                { name:'Beranda', link: '/'},
+                { name: 'Pengguna', link: '/hakakses' },
+                { name: 'Informasi', link: '/informasi' }
+                ],
             listRight: ["Logout"]
         }
     },
