@@ -277,7 +277,7 @@
                                                             <label>Foto</label>
                                                         </v-col>
                                                         <v-col md="9" cols="9">
-                                                            <!-- <img :src="'http://localhost/project/bin/index.php/uploads/'+dataDetail.foto" alt="" style="width: 50px; height: 50px"> -->
+                                                            <img :src="dataDetail.foto" alt="" style="object-fit: cover;">
                                                         </v-col>
                                                     </v-row>
                                                     <v-row class="">
@@ -696,7 +696,7 @@ export default {
             this.dataDetail = {};
         },
         contentDetail(item){
-            this.dataDetail.foto = item.foto
+            this.dataDetail.foto = 'http://localhost/bin/uploads/'+item.foto
             this.dataDetail.tags = []
             if(item.tags != null){
                 item.tags.forEach((value, index) => {
