@@ -4,7 +4,7 @@
     <!-- <v-main> -->
         <!-- <v-card style="width: 100%;"> -->
             <!-- <div > -->
-                <div style="width: 100%; padding-top:10px; padding-bottom:118px" class="image">
+                <div style="padding-top:10px; padding-bottom:118px" class="image">
                     <v-row style="padding-top:80px">
                         <v-col  md="4" sm="4" cols="12">
 

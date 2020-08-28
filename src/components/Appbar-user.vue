@@ -148,7 +148,7 @@ export default {
         },
         logout() {
             localStorage.removeItem('descUser')
-            this.$router.push({ path: '/login' })
+            this.$router.push({ path: '/' })
         }
     },
 }
