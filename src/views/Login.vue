@@ -4,7 +4,7 @@
     <!-- <v-main> -->
         <!-- <v-card style="width: 100%;"> -->
             <!-- <div > -->
-                <div style="padding-top:10px; padding-bottom:118px" class="image">
+                <div style="display: flex;  flex:1;" class="image">
                     <v-row style="padding-top:80px">
                         <v-col  md="4" sm="4" cols="12">
 
@@ -46,6 +46,7 @@
                                     :type="show1 ? 'text' : 'password'"
                                     @click:append="show1 = !show1"
                                     counter
+                                    @keyup.enter.native="onLogin"
                                     prepend-icon="mdi-lock">
                                     </v-text-field>
                                     <v-btn 

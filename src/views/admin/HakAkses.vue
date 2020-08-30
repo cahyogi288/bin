@@ -38,7 +38,7 @@
                                     <v-card-title>
                                         <span class="headline">Tambah Akun</span>
                                     </v-card-title>
-                                    <v-btn icon color="grey" @click="dialog = false">
+                                    <v-btn icon color="grey" @click="closeDialogNew">
                                         <v-icon>mdi-close</v-icon>
                                     </v-btn>
                                 </div>
@@ -394,6 +394,10 @@ export default {
     },
     methods: {
         reset() {
+            this.$refs.form.reset()
+        },
+        closeDialogNew(){
+            this.dialog = false
             this.$refs.form.reset()
         },
         newData(){
