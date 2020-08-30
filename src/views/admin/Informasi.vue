@@ -165,7 +165,7 @@
                                                 <label>Foto</label>
                                             </div>
                                             <div style="flex:3">
-                                                <input type="file" @change="images" class="in" placeholder="Foto...">
+                                                <input ref="file" type="file" @change="images" class="in" placeholder="Foto...">
                                             </div>
                                         </div>
                                         <div style="display:flex; flex-direction:row; align-items:center;">
@@ -325,7 +325,7 @@
                                                             <label>Negara</label>
                                                         </v-col>
                                                         <v-col md="9" cols="9">
-                                                            <p v-for="item in dataDetail.country">{{ item }}</p>
+                                                            <p v-for="(item, i) in dataDetail.country" :key="i">{{ item }}</p>
                                                         </v-col>
                                                     </v-row>
                                                     <v-row class="">
@@ -333,7 +333,7 @@
                                                             <label>Tags</label>
                                                         </v-col>
                                                         <v-col md="9" cols="9">
-                                                            <p v-for="item in dataDetail.tags">{{ item }}</p>
+                                                            <p v-for="(item, i) in dataDetail.tags" :key="i">{{ item }}</p>
                                                         </v-col>
                                                     </v-row>
                                                 </v-col>
@@ -374,7 +374,6 @@
                                                         dense>
                                                         </v-select>
                                                         
-                                                        </v-select>
                                                     </div>
                                                 </div>
                                                 <div style="display:flex; flex-direction:row; align-items:center;">
@@ -602,6 +601,9 @@ export default {
         removeForm(){
             this.tag_negara = []
             this.tags = []
+            if(this.$refs.file){
+                this.$refs.file.value = null;
+            }
             this.dataNew = {
                 country:[],
                 heading:"",
@@ -665,6 +667,7 @@ export default {
             ApiBin.post('Konten/create', this.dataInput).then( resp => {
                 console.log(resp)
                 this.tags = []
+                this.$refs.file.value = null;
                 this.$refs.form.reset()
                 this.getDataKonten()
                 this.dialog = false

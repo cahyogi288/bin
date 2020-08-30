@@ -63,7 +63,7 @@ export default {
             { title: 'Informasi', icon: 'mdi-alert-circle', link: 'informasi' },
             ],
             links: [
-                { name:'Beranda', link: '/'},
+                { name:'Beranda', link: '/home'},
                 { name: 'Pengguna', link: '/hakakses' },
                 { name: 'Informasi', link: '/informasi' }
                 ],

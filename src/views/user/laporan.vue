@@ -43,7 +43,7 @@
                                             <v-img
                                             height="200"
                                             width="300"
-                                            src="https://cdn.vuetifyjs.com/images/cards/store.jpg">
+                                            :src="'http://api.dolphinesia.com/uploads/'+ item.foto">
                                             </v-img>
                                         </v-col>
                                         <v-col md="8" cols="8">
@@ -55,7 +55,7 @@
                                             </v-card-subtitle>
                                             <v-card-text>
                                                 <div style=" white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                    <span>{{ item.informasi }} </span>
+                                                    <span v-trim v-html="item.informasi"></span>
                                                 </div>
                                                 <v-btn
                                                 @click="detailBerita(item)"
@@ -91,7 +91,7 @@
                                             ></v-img> -->
                                             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                                 <img 
-                                                :src="'http://localhost/bin/uploads/'+contentDetail.foto" 
+                                                :src="'http://api.dolphinesia.com/uploads/'+contentDetail.foto" 
                                                 alt="" 
                                                 style="object-fit: cover; height:200px; width: 200px;">
                                                 <p>{{ contentDetail.caption }}</p>
@@ -201,6 +201,15 @@ export default {
                 { id: '11', name: 'November'},
                 { id: '12', name: 'December'},
             ]
+        }
+    },
+    directives: {
+        trim: {
+            inserted: function(el) {
+                var str = el.innerHTML;
+                var resultString = str.split(' ').slice(0, 15).join(" ") + "...";
+                el.innerHTML = resultString
+            }
         }
     },
     computed: {
