@@ -58,7 +58,7 @@ export default {
         return {
             drawer: true,
             items: [
-            { title: 'Beranda', icon: 'mdi-home', link: '/' },
+            { title: 'Beranda', icon: 'mdi-home', link: '/home' },
             { title: 'Pengguna', icon: 'mdi-account-plus', link: '/hakakses' },
             { title: 'Informasi', icon: 'mdi-alert-circle', link: 'informasi' },
             ],

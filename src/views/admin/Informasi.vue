@@ -45,6 +45,10 @@
                                 
                                 <v-card-text>
                                 <v-container v-if="plusInput">
+                                    <v-form
+                                    ref="form"
+                                    v-model="valid"
+                                    lazy-validation> 
                                     <!-- <v-row> -->
                                         <div style="display:flex; flex-direction:row; align-items:center;">
                                             <div style="flex:1">
@@ -74,7 +78,7 @@
                                                 multiple
                                                 solo> -->
 
-                                                </v-select>
+                                                <!-- </v-select> -->
                                             </div>
                                         </div>
                                         <div style="display:flex; flex-direction:row; align-items:center;">
@@ -216,6 +220,7 @@
                                         </v-col> -->
                                     <!-- </v-row> -->
                                     <small>*indicates required field</small>
+                                    </v-form>
                                 </v-container>
                                 
                                 </v-card-text>
@@ -223,7 +228,7 @@
                                     <v-btn class="ma-2 white--text" small rounded color="#B2DFDB" @click="openInput"> <v-icon dark>mdi-plus</v-icon>Input</v-btn>
                                     
                                     <v-spacer></v-spacer>
-                                    <v-btn class="ma-6 white--text" color="#EEEEEE  " width="100">Reset</v-btn>
+                                    <v-btn class="ma-6 white--text" @click="reset" color="#EEEEEE  " width="100">Reset</v-btn>
                                     <v-btn class="ma-2" @click="newData" color="accent" width="100">Submit</v-btn>
                                     <!-- <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
                                     <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn> -->
@@ -496,6 +501,7 @@ export default {
             kategoris: ['PWNI', 'Terorisme', 'Kejahatan Lintas Batas', 'Separatisme', 'BDI', 'Laporan Bulanan'],
             plusInput: true,
             menu: false,
+            valid:true,
             dataKonten: [],
             content: "<h1>Some initial content</h1>",
             justify: [
@@ -658,6 +664,8 @@ export default {
             // console.log(this.dataNew)
             ApiBin.post('Konten/create', this.dataInput).then( resp => {
                 console.log(resp)
+                this.tags = []
+                this.$refs.form.reset()
                 this.getDataKonten()
                 this.dialog = false
                 // if(resp.data)
@@ -738,8 +746,11 @@ export default {
             this.dialogDetail = false;
             this.dataDetail = {};
         },
+        reset() {
+            this.$refs.form.reset()
+        },
         contentDetail(item){
-            this.dataDetail.foto = 'http://localhost/bin/uploads/'+item.foto
+            this.dataDetail.foto = 'http://api.dolphinesia.com/uploads/'+item.foto
             this.dataDetail.tags = []
             if(item.tags != null){
                 item.tags.forEach((value, index) => {
