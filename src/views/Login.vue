@@ -19,6 +19,13 @@
                             </v-col>
 
                             <v-col class="text-center" md="12" sm="12" xs="12" cols="12">
+                                <v-alert 
+                                v-if="showAlert"
+                                dense
+                                dismissible
+                                type="warning">
+                                {{ alert }}
+                                </v-alert>
                                 <v-form
                                 ref="form"
                                 v-model="valid"
@@ -93,6 +100,8 @@ export default {
             },
             show1: false,
             valid: true,
+            alert: '',
+            showAlert: false,
             rules: {
                 required: value => !!value || 'Required.',
                 min: v => v.length >= 5 || 'Min 8 characters',
@@ -116,7 +125,7 @@ export default {
         onLogin() {
             if(this.$refs.form.validate()){
                 ApiBin.post('Auth/login', this.formLogin).then( resp => {
-                    console.log(resp.data.data)
+                    // console.log(resp.data)
                     if(resp.data.error == false){
                         let res = resp.data.data
                         let descUser = []
@@ -126,15 +135,19 @@ export default {
                             username: res.username,
                             countryName: res.countryName
                             })
-                        localStorage.setItem('descUser', descUser)
+                        localStorage.setItem('descUser', JSON.stringify(descUser))
                         // console.log(descUser)
                         
                         if(descUser[0].status == 'PEGAWAI'){
+                            // console.log(descUser)
                             this.$router.replace({ path: '/beranda' })
                         }else if(descUser[0].status == 'ADMIN'){
-                            this.$router.replace({ path: '/' })
+                            this.$router.replace({ path: '/home' })
                         }
-                    }                 
+                    }else{
+                        this.alert = resp.data.message
+                        this.showAlert = true
+                    }                
 
                 })
             }

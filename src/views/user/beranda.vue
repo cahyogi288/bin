@@ -12,7 +12,7 @@
                         align="center"
                         justify="center">
                             <v-col md="12" sm="12" cols="12">
-                                <span> <h1 class="white--text text-center"> Welcome, Malaysia </h1></span>
+                                <span> <h1 class="white--text text-center"> Welcome, {{ countryName }} </h1></span>
                             </v-col>
                         </v-row>
                     </div>
@@ -44,7 +44,7 @@
                                             <v-img
                                                 height="200"
                                                 width="300"
-                                                src="https://cdn.vuetifyjs.com/images/cards/store.jpg"
+                                                :src="'http://api.dolphinesia.com/uploads/'+ content[0].foto"
                                             ></v-img>
                                         </v-col>
                                         <v-col class="text-center d-flex align-center justify-center" md="8" cols="8">
@@ -86,7 +86,7 @@
                                                         <v-img
                                                             height="100"
                                                             width="200"
-                                                            src="https://cdn.vuetifyjs.com/images/cards/store.jpg"
+                                                            :src="'http://api.dolphinesia.com/uploads/'+ content[1].foto"
                                                         ></v-img>
                                                     </v-col>
                                                     <v-col class="text-center d-flex align-center justify-center" md="8" cols="8">
@@ -140,7 +140,7 @@
                                                             <v-img
                                                                 height="100"
                                                                 width="200"
-                                                                src="https://cdn.vuetifyjs.com/images/cards/store.jpg"
+                                                                :src="'http://api.dolphinesia.com/uploads/'+ content[2].foto"
                                                             ></v-img>
                                                         </v-col>
                                                     </v-row>
@@ -178,7 +178,7 @@
                                             ></v-img> -->
                                             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                                 <img 
-                                                :src="'http://localhost/bin/uploads/'+contentDetail.foto" 
+                                                :src="'http://api.dolphinesia.com/uploads/'+contentDetail.foto" 
                                                 alt="" 
                                                 style="object-fit: cover; height:200px; width: 200px;">
                                                 <p>{{ contentDetail.caption }}</p>
@@ -275,6 +275,12 @@ export default {
     },
     mounted () {
         this.getAllContent();
+    },
+    computed: {
+        countryName() {
+            let a = JSON.parse(localStorage.getItem('descUser'))
+            return a[0].countryName 
+        }
     },
     methods: {
         detailBerita(content) {

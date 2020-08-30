@@ -34,51 +34,73 @@ const routes = [{
         path: '/home',
         name: 'Home',
         component: Home,
+        // beforeEnter(to, from, next) {
+        //     if (localStorage.getItem("descUser")) {
+        //         next()
+        //     } else {
+        //         next('/')
+        //     }
+        // }
     },
     {
         path: '/hakakses',
         name: 'Hak-Akses',
-        component: Hakakses
+        component: Hakakses,
+        // beforeEnter(to, from, next) {
+        //     if (localStorage.getItem("descUser")) {
+        //         next()
+        //     } else {
+        //         next('/')
+        //     }
+        // }
     },
     {
         path: '/informasi',
         name: 'Informasi',
-        component: Informasi
+        component: Informasi,
+        // beforeEnter(to, from, next) {
+        //     if (localStorage.getItem("descUser")) {
+        //         next()
+        //     } else {
+        //         next('/')
+        //     }
+        // }
     },
     {
         path: '/beranda',
         name: 'Beranda',
-        component: Beranda
+        component: Beranda,
+        beforeEnter(to, from, next) {
+            if (localStorage.getItem("descUser")) {
+                next()
+            } else {
+                next('/')
+            }
+        }
     },
     {
         path: '/kategori',
         name: 'Kategori',
-        component: Bdi
-    },
-    {
-        path: '/kejahatan',
-        name: 'Kejahatan',
-        component: kejahatan
-    },
-    {
-        path: '/pwni',
-        name: 'PWNI',
-        component: pwni
-    },
-    {
-        path: '/separatisme',
-        name: 'Separatisme',
-        component: separatisme
-    },
-    {
-        path: '/terorisme',
-        name: 'Terorisme',
-        component: terorisme
+        component: Bdi,
+        beforeEnter(to, from, next) {
+            if (localStorage.getItem("descUser")) {
+                next()
+            } else {
+                next('/')
+            }
+        }
     },
     {
         path: '/laporan',
         name: 'Laporan',
-        component: laporan
+        component: laporan,
+        beforeEnter(to, from, next) {
+            if (localStorage.getItem("descUser")) {
+                next()
+            } else {
+                next('/')
+            }
+        }
     },
 ]
 
