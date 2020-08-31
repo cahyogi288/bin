@@ -57,7 +57,7 @@
                                             <div style="flex:3">
                                                 <!-- <input type="text" class="in" placeholder="Negara..."> -->
                                                 <!-- <VueTagInput v-model="tag_negara" @add="onAdd" ></VueTagInput> -->
-                                                <v-select
+                                                <v-select required
                                                 v-model="tag_negara"
                                                 :items="itemCountry"
                                                 item-text="name"
@@ -87,7 +87,7 @@
                                             </div>
                                             <div style="flex:3">
                                                 <!-- <input type="text" class="in" placeholder="Judul Informasi..."> -->
-                                                <v-text-field
+                                                <v-text-field required
                                                 v-model="dataNew.heading"
                                                 background-color="#EEEEEE"
                                                 label="Judul Informasi"
@@ -101,7 +101,7 @@
                                             </div>
                                             <div style="flex:3">
                                                 <!-- <input type="text" class="in" placeholder="Waktu Input..."> -->
-                                                <v-menu
+                                                <v-menu required
                                                     ref="menu"
                                                     v-model="menu"
                                                     :close-on-content-click="false"
@@ -111,7 +111,7 @@
                                                     min-width="290px"
                                                 >
                                                     <template v-slot:activator="{ on, attrs }">
-                                                    <v-text-field
+                                                    <v-text-field required
                                                         v-model="dataNew.createdAt"
                                                         placeholder="Waktu Input"
                                                         readonly
@@ -142,7 +142,7 @@
                                             </div>
                                             <div style="flex:3">
                                                 <!-- <input type="text" class="in" placeholder="Kategori..."> -->
-                                                <v-select
+                                                <v-select required
                                                 v-model="dataNew.kategori"
                                                 :items="kategoris"
                                                 background-color="#EEEEEE"
@@ -157,7 +157,7 @@
                                             </div>
                                             <div style="flex:3">
                                                 <!-- <input type="text" class="in" placeholder="Tag..."> -->
-                                                <input-tag style="background-color: #EEEEEE;" v-model="tags"></input-tag>
+                                                <input-tag required style="background-color: #EEEEEE;" v-model="tags"></input-tag>
                                             </div>
                                         </div>
                                         <div style="display:flex; flex-direction:row; align-items:center; margin-bottom:20px;">
@@ -165,7 +165,7 @@
                                                 <label>Foto</label>
                                             </div>
                                             <div style="flex:3">
-                                                <input ref="file" type="file" @change="images" class="in" placeholder="Foto...">
+                                                <input required ref="file" type="file" @change="images" class="in" placeholder="Foto...">
                                             </div>
                                         </div>
                                         <div style="display:flex; flex-direction:row; align-items:center;">
@@ -174,7 +174,7 @@
                                             </div>
                                             <div style="flex:3">
                                                 <!-- <input type="text" class="in" placeholder="Deskripsi Foto..."> -->
-                                                <v-text-field
+                                                <v-text-field required
                                                 v-model="dataNew.caption"
                                                 background-color="#EEEEEE"
                                                 label="Deskripsi Foto"
@@ -188,7 +188,7 @@
                                             </div>
                                             <div style="flex:3">
                                                 <div id="app">
-                                                    <vue-editor v-model="dataNew.informasi"></vue-editor>
+                                                    <vue-editor required v-model="dataNew.informasi"></vue-editor>
                                                 </div>
                                                 <!-- <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor> -->
                                                 <!-- <input type="text" class="in" placeholder="Informasi..."> -->
@@ -661,7 +661,6 @@ export default {
                 this.dataInput.append('sub_heading','')
                 console.log(this.dataInput)
 
-
             // }
             // console.log(this.dataNew)
             ApiBin.post('Konten/create', this.dataInput).then( resp => {
@@ -671,6 +670,16 @@ export default {
                 this.$refs.form.reset()
                 this.getDataKonten()
                 this.dialog = false
+                this.dataNew ={
+                    country:[],
+                    heading:"",
+                    createdAt:"",
+                    kategori:"",
+                    tags:[],
+                    foto:new FormData(),
+                    caption:"",
+                    informasi:"<h1>Some initial content</h1>",
+                }
                 // if(resp.data)
             })
         },
