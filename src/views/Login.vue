@@ -4,7 +4,7 @@
     <!-- <v-main> -->
         <!-- <v-card style="width: 100%;"> -->
             <!-- <div > -->
-                <div style="padding-top:10px; padding-bottom:118px" class="image">
+                <div style="display: flex;  flex:1;" class="image">
                     <v-row style="padding-top:80px">
                         <v-col  md="4" sm="4" cols="12">
 
@@ -19,6 +19,13 @@
                             </v-col>
 
                             <v-col class="text-center" md="12" sm="12" xs="12" cols="12">
+                                <v-alert 
+                                v-if="showAlert"
+                                dense
+                                dismissible
+                                type="warning">
+                                {{ alert }}
+                                </v-alert>
                                 <v-form
                                 ref="form"
                                 v-model="valid"
@@ -39,6 +46,7 @@
                                     :type="show1 ? 'text' : 'password'"
                                     @click:append="show1 = !show1"
                                     counter
+                                    @keyup.enter.native="onLogin"
                                     prepend-icon="mdi-lock">
                                     </v-text-field>
                                     <v-btn 
@@ -93,6 +101,8 @@ export default {
             },
             show1: false,
             valid: true,
+            alert: '',
+            showAlert: false,
             rules: {
                 required: value => !!value || 'Required.',
                 min: v => v.length >= 5 || 'Min 8 characters',
@@ -116,7 +126,7 @@ export default {
         onLogin() {
             if(this.$refs.form.validate()){
                 ApiBin.post('Auth/login', this.formLogin).then( resp => {
-                    console.log(resp.data.data)
+                    // console.log(resp.data)
                     if(resp.data.error == false){
                         let res = resp.data.data
                         let descUser = []
@@ -126,15 +136,19 @@ export default {
                             username: res.username,
                             countryName: res.countryName
                             })
-                        localStorage.setItem('descUser', descUser)
+                        localStorage.setItem('descUser', JSON.stringify(descUser))
                         // console.log(descUser)
                         
                         if(descUser[0].status == 'PEGAWAI'){
+                            // console.log(descUser)
                             this.$router.replace({ path: '/beranda' })
                         }else if(descUser[0].status == 'ADMIN'){
-                            this.$router.replace({ path: '/' })
+                            this.$router.replace({ path: '/home' })
                         }
-                    }                 
+                    }else{
+                        this.alert = resp.data.message
+                        this.showAlert = true
+                    }                
 
                 })
             }

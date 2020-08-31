@@ -38,7 +38,7 @@
                                     <v-card-title>
                                         <span class="headline">Tambah Akun</span>
                                     </v-card-title>
-                                    <v-btn icon color="grey" @click="dialog = false">
+                                    <v-btn icon color="grey" @click="closeDialogNew">
                                         <v-icon>mdi-close</v-icon>
                                     </v-btn>
                                 </div>
@@ -152,7 +152,7 @@
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn class="white--text" color="#EEEEEE  " >Reset</v-btn>
+                                    <v-btn @click="reset" class="white--text" color="#EEEEEE  " >Reset</v-btn>
                                     <v-btn class="" @click="newData" color="accent" >Submit</v-btn>
                                 </v-card-actions>
                             </v-card>
@@ -393,6 +393,13 @@ export default {
         this.getCountry();
     },
     methods: {
+        reset() {
+            this.$refs.form.reset()
+        },
+        closeDialogNew(){
+            this.dialog = false
+            this.$refs.form.reset()
+        },
         newData(){
             // if(this.$refs.form.validate()){
 
@@ -401,6 +408,7 @@ export default {
             ApiBin.post('User/insertUser', this.dataNew).then( resp => {
                 console.log(resp)
                 this.getAllUser()
+                this.$refs.form.reset()
                 this.dialog = false
                 // if(resp.data)
             })
