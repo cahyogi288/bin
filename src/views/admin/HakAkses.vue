@@ -58,6 +58,7 @@
                                                     <!-- <input type="text" class="in" placeholder="Nama Lengkap..."> -->
                                                 <v-text-field
                                                 v-model="dataNew.nama"
+                                                :rules="validForm.naleng"
                                                 background-color="#EEEEEE"
                                                 placeholder="Nama Lengkap"
                                                 outlined
@@ -72,6 +73,7 @@
                                             <v-col md="9" cols="9">
                                                 <v-text-field
                                                 v-model="dataNew.nik"
+                                                :rules="validForm.nik"
                                                 background-color="#EEEEEE"
                                                 placeholder="NIK Pegawai"
                                                 outlined
@@ -87,6 +89,7 @@
                                             <v-col md="9" cols="9">
                                                 <v-text-field
                                                 v-model="dataNew.username"
+                                                :rules="validForm.napeng"
                                                 background-color="#EEEEEE"
                                                 placeholder="Nama Pengguna"
                                                 outlined
@@ -101,6 +104,7 @@
                                             <v-col md="9" cols="9">
                                                 <v-text-field
                                                 v-model="dataNew.password"
+                                                :rules="validForm.sandi"
                                                 background-color="#EEEEEE"
                                                 placeholder="Kata Sandi"
                                                 outlined
@@ -118,6 +122,7 @@
                                                 <v-select
                                                 v-model="dataNew.negara"
                                                 :items="itemCountry"
+                                                :rules="validForm.negara"
                                                 item-text="name"
                                                 item-value="iso"
                                                 filled
@@ -137,6 +142,7 @@
                                             <v-col cols="9" sm="9">
                                                 <v-select
                                                 v-model="dataNew.status"
+                                                :rules="validForm.status"
                                                 :items="itemsStatus"
                                                 filled
                                                 placeholder="Status"
@@ -364,6 +370,14 @@ export default {
                 { text: 'Status', value: 'status'},
                 { text: 'Aksi', value: 'aksi', sortable: false },
             ],
+            validForm: {
+                naleng: [ v => !!v || 'Nama Lengkap is required'],
+                nik: [ v => !!v || 'NIK is required'],
+                napeng: [ v => !!v || 'Nama Pengguna is required'],
+                sandi: [ v => !!v || 'Sandi is required'],
+                negara: [ v => !!v || 'Negara is required'],
+                status: [ v => !!v || 'Status is required'],
+            },
             // items: [
             //     {
             //     text: 'Dashboard',
@@ -401,17 +415,18 @@ export default {
             this.$refs.form.reset()
         },
         newData(){
-            // if(this.$refs.form.validate()){
-
-            // }
-            // console.log(this.dataNew)
-            ApiBin.post('User/insertUser', this.dataNew).then( resp => {
-                console.log(resp)
-                this.getAllUser()
-                this.$refs.form.reset()
-                this.dialog = false
+            if(this.$refs.form.validate()){
+                ApiBin.post('User/insertUser', this.dataNew).then( resp => {
+                    console.log(resp)
+                    this.getAllUser()
+                    this.$refs.form.reset()
+                    this.dialog = false
                 // if(resp.data)
-            })
+                })
+            }else{
+                console.log('gamasuk')
+            }
+
         },
         getAllUser() {
             ApiBin.get('User/getUser').then( resp => {
