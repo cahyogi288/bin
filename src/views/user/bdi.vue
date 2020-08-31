@@ -19,11 +19,11 @@
                 </v-card>
 
                 <v-row class="ml-4" style="">
-                    <v-col v-if="countContent & !rowDetail" md="8" cols=12>
+                    <v-col v-if="countContent>0 & !rowDetail" md="8" cols=12>
                         <v-card class="grey lighten-4">
                             <v-row>
                                 <!-- <div> -->
-                                    <v-col v-for="(item, i) in content" :key="i" md="12" cols="12">
+                                    <v-col v-for="(item, i) in newData" :key="i" md="12" cols="12">
                                         <v-card class="grey lighten-4" elevation="0">
                                             <v-row>
                                             <v-col class="pl-8" md="4" cols="4">
@@ -174,6 +174,8 @@
                                             <v-row>
                                                 <v-col md="10" cols="10">
                                                     <v-text-field
+                                                    v-model="search"
+                                                    @input="onChange($event)"
                                                     background-color="white"
                                                     placeholder="Cari..."
                                                     outlined
@@ -237,7 +239,11 @@ export default {
             kategori: '',
             content: [],
             countContent: '',
+            search: '',
             contentDetail: [],
+            newData: '',
+            offlineKey: ["heading","informasi"],
+            unique: "id",
              kategoris: [
                 { title: 'PWNI', link: '/pwni' }, 
                 { title: 'Terorisme', link: '/terorisme' }, 
@@ -262,9 +268,10 @@ export default {
         }
     },
     computed: {
-        // name() {
-        //     return this.nameContent =  
-        // }
+        countryId() {
+            let a = JSON.parse(localStorage.getItem('descUser'))
+            return a[0].countryId 
+        }
     },
     methods: {
         detailBerita(content) {
@@ -283,13 +290,43 @@ export default {
         },
         getBerita(){
             let kategori = { kategori:localStorage.getItem('namaContent') }
-            ApiBin.post('Konten/getByKategori', kategori).then (resp => {
-                // console.log(resp.data)
-                this.content = resp.data.data
-                this.countContent = this.content.length
-                console.log(this.countContent)
-            })
-        }
+            if(kategori.kategori == 'BDI'){
+                ApiBin.get('Konten/getByCountry?country=' + this.countryId).then( resp => {
+                    this.content = resp.data.data
+                    this.newData = resp.data.data
+                    this.countContent = this.newData.length
+                    console.log(this.countContent)
+                })
+            }else{
+                ApiBin.post('Konten/getByKategori', kategori).then (resp => {
+                    // console.log(resp.data)
+                    this.content = resp.data.data
+                    this.newData = resp.newData.data
+                    this.countContent = this.content.length
+                    console.log(this.countContent)
+                })
+            }
+        },
+         onChange(event) {
+                    // let val = event.target.value;
+                    let result = [];
+                    
+                    this.offlineKey.map(key => {
+                        result = result.concat(this.content.filter(el => el[key] === null ? false : el[key].toLowerCase().includes(this.search.toLowerCase())));
+                    })
+
+                    let seen = new Set();
+                    const dataFilter = result.filter(el => {
+                        const duplicate = seen.has(el[this.unique]);
+                        seen.add(el[this.unique]);
+                        return !duplicate;
+                    })
+
+                    console.log(dataFilter)
+                    this.countContent = dataFilter.length
+
+                    this.newData = dataFilter;
+                },
     },
 }
 </script>

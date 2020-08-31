@@ -126,7 +126,7 @@ export default {
         onLogin() {
             if(this.$refs.form.validate()){
                 ApiBin.post('Auth/login', this.formLogin).then( resp => {
-                    // console.log(resp.data)
+                    console.log(resp.data)
                     if(resp.data.error == false){
                         let res = resp.data.data
                         let descUser = []
@@ -134,6 +134,7 @@ export default {
                             nim: res.nik,
                             status: res.status,
                             username: res.username,
+                            countryId: res.negara,
                             countryName: res.countryName
                             })
                         localStorage.setItem('descUser', JSON.stringify(descUser))
