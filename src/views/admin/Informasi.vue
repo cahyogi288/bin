@@ -60,6 +60,7 @@
                                                 <v-select required
                                                 v-model="tag_negara"
                                                 :items="itemCountry"
+                                                :rules="validForm.c"
                                                 item-text="name"
                                                 item-value="iso"
                                                 filled
@@ -89,6 +90,7 @@
                                                 <!-- <input type="text" class="in" placeholder="Judul Informasi..."> -->
                                                 <v-text-field required
                                                 v-model="dataNew.heading"
+                                                :rules="validForm.heading"
                                                 background-color="#EEEEEE"
                                                 label="Judul Informasi"
                                                 outlined
@@ -113,6 +115,7 @@
                                                     <template v-slot:activator="{ on, attrs }">
                                                     <v-text-field required
                                                         v-model="dataNew.createdAt"
+                                                        :rules="validForm.createdAt"
                                                         placeholder="Waktu Input"
                                                         readonly
                                                         background-color="#EEEEEE"
@@ -142,8 +145,9 @@
                                             </div>
                                             <div style="flex:3">
                                                 <!-- <input type="text" class="in" placeholder="Kategori..."> -->
-                                                <v-select required
+                                                <v-select
                                                 v-model="dataNew.kategori"
+                                                :rules="validForm.kategori"
                                                 :items="kategoris"
                                                 background-color="#EEEEEE"
                                                 label="Kategori"
@@ -157,7 +161,7 @@
                                             </div>
                                             <div style="flex:3">
                                                 <!-- <input type="text" class="in" placeholder="Tag..."> -->
-                                                <input-tag required style="background-color: #EEEEEE;" v-model="tags"></input-tag>
+                                                <input-tag :rules="validForm.tags" required style="background-color: #EEEEEE;" v-model="tags"></input-tag>
                                             </div>
                                         </div>
                                         <div style="display:flex; flex-direction:row; align-items:center; margin-bottom:20px;">
@@ -176,6 +180,7 @@
                                                 <!-- <input type="text" class="in" placeholder="Deskripsi Foto..."> -->
                                                 <v-text-field required
                                                 v-model="dataNew.caption"
+                                                :rules="validForm.caption"
                                                 background-color="#EEEEEE"
                                                 label="Deskripsi Foto"
                                                 outlined
@@ -560,6 +565,16 @@ export default {
                 caption:"",
                 informasi:"<h1>Some initial content</h1>",
             },
+            validForm: {
+                heading: [ v => !!v || 'Judul Informasi is required'],
+                c: [ v => !!v || 'Negara is required'],
+                createdAt: [ v => !!v || 'Waktu Input is required'],
+                kategori: [ v => !!v || 'Kategori is required'],
+                tags: [ v => !!v || 'Tags is required'],
+                foto: [ v => !!v || 'Foto is required'],
+                caption: [ v => !!v || 'Caption is required'],
+                informasi: [ v => !!v || 'Informasi is required'],
+            },
             dataInputEdit: new FormData(),
             dataInput: new FormData(),
             dataEdit:{
@@ -704,6 +719,7 @@ export default {
             this.dataEdit.country.forEach((value, index) => {
                 countryS.push({name : value})
             });
+            
             this.dataInputEdit.append('country',JSON.stringify(countryS))
             this.dataInputEdit.append('heading', this.dataEdit.heading)
             this.dataInputEdit.append('createdAt',this.dataEdit.createdAt)
