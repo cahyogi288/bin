@@ -319,7 +319,7 @@
                                                     </v-row>
                                                     <v-row class="">
                                                         <v-col md="2" cols="3">
-                                                            <label>Caption</label>
+                                                            <label>Deskripsi Foto</label>
                                                         </v-col>
                                                         <v-col md="9" cols="9">
                                                             <p>{{dataDetail.caption}}</p>
@@ -352,7 +352,7 @@
                                             <v-card-title>
                                                 <span class="headline">Edit Informasi</span>
                                             </v-card-title>
-                                            <v-btn icon color="grey" @click="dialogEdit = false">
+                                            <v-btn icon color="grey" @click="closeDialogEdit">
                                                 <v-icon>mdi-close</v-icon>
                                             </v-btn>
                                         </div>
@@ -588,6 +588,8 @@ export default {
                 caption:"",
                 informasi:"",
             },
+            // targetFilesEdit:'',
+            dataUpdateFoto:false,
             dataDetail:{
                 // id:"",
                 // country:[],
@@ -729,15 +731,34 @@ export default {
             this.dataInputEdit.append('informasi',this.dataEdit.informasi)
             this.dataInputEdit.append('sub_heading','')
             this.dataInputEdit.append('id',this.dataEdit.id)
+            // this.dataInputEdit.append('updateFoto',this.dataUpdateFoto)
+            // this.dataUpdateFoto)
+            // this.dataInputEdit.append('foto','')
 
-            console.log(this.dataInputEdit)
+            // console.log(this.dataInputEdit)
 
-            ApiBin.post('Konten/update', this.dataInputEdit).then( resp => {
+            let apiUpdateData = 'Konten/updateWithoutFoto'
+            if(this.dataUpdateFoto == true){
+                apiUpdateData ='Konten/upload'
+            }
+            ApiBin.post(apiUpdateData, this.dataInputEdit).then( resp => {
                 console.log(resp)
                 this.getDataKonten()
                 this.dialogEdit = false
+                this.dataEdit={
+                    id:"",
+                    country:[],
+                    heading:"",
+                    createdAt:"",
+                    kategori:"",
+                    tags:[],
+                    foto:"",
+                    caption:"",
+                    informasi:"",
+                }
+                this.dataInputEdit = new FormData()
+                this.dataUpdateFoto = false;
             })
-
         },
         editdata(item) {
             if(item.tags != null){
@@ -769,6 +790,20 @@ export default {
             }else{
                 this.plusInput = false
             }
+        },
+        closeDialogEdit(){
+            this.dialogEdit = false
+            this.dataEdit = {
+                    id:"",
+                    country:[],
+                    heading:"",
+                    createdAt:"",
+                    kategori:"",
+                    tags:[],
+                    foto:"",
+                    caption:"",
+                    informasi:"",
+                }
         },
         closeDialogDetail(){
             this.dialogDetail = false;
@@ -810,8 +845,10 @@ export default {
                     this.dataInput.append('foto',event.target.files[0])
         },
         imagesEdit(event) {
-                    console.log(event.target.files[0]);
+                    // console.log(event.target.files[0]);
+                    // this.targetFilesEdit = event.target.files[0];
                     this.dataInputEdit.append('foto',event.target.files[0])
+                    this.dataUpdateFoto = true;
         }
     }
     
