@@ -45,7 +45,6 @@
                                     :rules="[rules.required, rules.min]"
                                     :type="show1 ? 'text' : 'password'"
                                     @click:append="show1 = !show1"
-                                    counter
                                     @keyup.enter.native="onLogin"
                                     prepend-icon="mdi-lock">
                                     </v-text-field>
@@ -105,7 +104,7 @@ export default {
             showAlert: false,
             rules: {
                 required: value => !!value || 'Required.',
-                min: v => v.length >= 5 || 'Min 8 characters',
+                min: v => v.length >= 8 || 'Min 8 characters',
                 emailMatch: () => ('The email and password you entered don\'t match'),
             },
             usernameRules: [

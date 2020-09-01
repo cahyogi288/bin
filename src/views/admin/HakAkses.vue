@@ -84,6 +84,20 @@
                                     <!-- </div> -->
                                         <v-row class="mb-n5">
                                             <v-col md="3" cols="3">
+                                                <label>Email</label>
+                                            </v-col>
+                                            <v-col md="9" cols="9">
+                                                <v-text-field
+                                                v-model="dataNew.email"
+                                                :rules="validForm.emailRules"
+                                                background-color="#EEEEEE"
+                                                placeholder="Email"
+                                                outlined
+                                                dense></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row class="mb-n5">
+                                            <v-col md="3" cols="3">
                                                 <label>Nama Pengguna</label>
                                             </v-col>
                                             <v-col md="9" cols="9">
@@ -104,7 +118,8 @@
                                             <v-col md="9" cols="9">
                                                 <v-text-field
                                                 v-model="dataNew.password"
-                                                :rules="validForm.sandi"
+                                                :rules="[...validForm.sandi, ...validForm.minSandi]"
+                                                min="8"
                                                 background-color="#EEEEEE"
                                                 placeholder="Kata Sandi"
                                                 outlined
@@ -248,7 +263,20 @@
                                                 dense></v-text-field>
                                             </v-col>
                                         </v-row>
-
+                                        <v-row class="mb-n5">
+                                            <v-col md="2" cols="3">
+                                                <label>Email</label>
+                                            </v-col>
+                                            <v-col md="9" cols="9">
+                                                <v-text-field
+                                                v-model="dataEdit.email"
+                                                :rules="validFormEdit.emailRules"
+                                                background-color="#EEEEEE"
+                                                placeholder="Email"
+                                                outlined
+                                                dense></v-text-field>
+                                            </v-col>
+                                        </v-row>
                                         <v-row class="mb-n5">
                                             <v-col md="2" cols="3">
                                                 <label>NIK</label>
@@ -351,7 +379,8 @@ export default {
                 username: '',
                 password: '',
                 negara: '',
-                status: ''
+                status: '',
+                email:''
             },
             dataEdit: {
                 id: '',
@@ -359,11 +388,13 @@ export default {
                 username: '',
                 nik: '',
                 negara: '',
-                status: ''
+                status: '',
+                email:''
             },
             headers: [
                 { text: 'Nama Pengguna', value: 'username' },
                 { text: 'Kata Sandi', value: 'password' },
+                { text: 'Email', value: 'email' },
                 { text: 'Nama Lengkap', value: 'nama' },
                 { text: 'NIP', value: 'nik' },
                 { text: 'Negara', value: 'negara' },
@@ -375,8 +406,18 @@ export default {
                 nik: [ v => !!v || 'NIK is required'],
                 napeng: [ v => !!v || 'Nama Pengguna is required'],
                 sandi: [ v => !!v || 'Sandi is required'],
+                minSandi: [v => (v || '').length >= 8 || `minimal sandi 8 karakter`],
                 negara: [ v => !!v || 'Negara is required'],
                 status: [ v => !!v || 'Status is required'],
+                emailRules: [
+                    v => !!v || 'E-mail is required',
+                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                ],
+            },
+            validFormEdit:{
+                emailRules: [
+                    v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+                ],
             },
             // items: [
             //     {
@@ -422,6 +463,15 @@ export default {
                     this.$refs.form.reset()
                     this.dialog = false
                 // if(resp.data)
+                    this.dataNew= {
+                        nama: '',
+                        nik: '',
+                        username: '',
+                        password: '',
+                        negara: '',
+                        status: '',
+                        email:''
+                    }
                 })
             }else{
                 console.log('gamasuk')
@@ -442,6 +492,7 @@ export default {
             this.dataEdit.nik = item.nik
             this.dataEdit.negara = item.negara
             this.dataEdit.status = item.status
+            this.dataEdit.email = item.email
 
             this.dialogEdit = true
         },

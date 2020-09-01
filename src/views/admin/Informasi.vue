@@ -187,6 +187,14 @@
                                                 dense></v-text-field>
                                             </div>
                                         </div>
+                                        <div style="display:flex; flex-direction:row; align-items:center; margin-bottom:20px;">
+                                            <div style="flex:1">
+                                                <label>File Dokumen</label>
+                                            </div>
+                                            <div style="flex:3">
+                                                <input ref="file" type="file" @change="fileDokumen" class="in" placeholder="File...">
+                                            </div>
+                                        </div>
                                         <div style="display:flex; flex-direction:row; align-items:center; margin-bottom:30px;">
                                             <div style="flex:1">
                                                 <label>Informasi</label>
@@ -687,6 +695,7 @@ export default {
                 this.$refs.form.reset()
                 this.getDataKonten()
                 this.dialog = false
+                this.dataInput= new FormData()
                 this.dataNew ={
                     country:[],
                     heading:"",
@@ -843,6 +852,10 @@ export default {
         images(event) {
                     console.log(event.target.files[0]);
                     this.dataInput.append('foto',event.target.files[0])
+        },
+        fileDokumen(event) {
+                    console.log(event.target.files[0]);
+                    this.dataInput.append('doc',event.target.files[0])
         },
         imagesEdit(event) {
                     // console.log(event.target.files[0]);
