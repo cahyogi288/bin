@@ -4,8 +4,8 @@
 
     <v-main class="mt-n3">
       <v-container fluid>
-        <v-card class="px-auto rounded-xl" elevation="0">
-          <div class="berandapeta rounded-xl">
+        <v-card class="peta px-auto rounded-xl" elevation="0">
+          <div class="berandapeta rounded-xl d-flex">
             <v-row align="center" justify="center">
               <v-col md="12" sm="12" cols="12">
                 <span>
@@ -16,9 +16,9 @@
           </div>
         </v-card>
 
-        <v-row style>
+        <v-row >
           <v-col v-if="!rowDetail" md="8" cols="12">
-            <v-card class="grey lighten-4 ml-6">
+            <v-card class="grey lighten-4">
               <v-row class="ml-3">
                 <v-col md="4" cols="4">
                   <v-select
@@ -49,13 +49,13 @@
                           <span>{{ item.heading }}</span>
                         </v-card-title>
                         <v-card-subtitle>
-                          <span>{{ item.createdAt }}</span>
+                          <span>{{ item.createdAt | date}}</span>
                         </v-card-subtitle>
                         <v-card-text>
                           <div
-                            style=" white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                            style="height:30px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
                           >
-                            <span v-trim v-html="item.informasi"></span>
+                            <span class="inform block-ellipsis" v-trim v-html="item.informasi"></span>
                           </div>
                           <v-btn @click="detailBerita(item)" class="mt-3" color="primary">
                             Lihat
@@ -71,7 +71,7 @@
           </v-col>
 
           <v-col v-if="rowDetail" md="8" cols="12">
-            <v-card class="grey lighten-4 ml-6">
+            <v-card class="grey lighten-4">
               <v-row>
                 <v-col class="mt-n3" md="12" cols="12">
                   <v-card-title>
@@ -79,7 +79,7 @@
                       <v-col md="12" cols="12">
                         <span>{{ contentDetail.heading }}</span>
                         <br />
-                        <span class="text-subtitle-1">{{ contentDetail.createdAt }}</span>
+                        <span class="text-subtitle-1">{{ contentDetail.createdAt | date }}</span>
                       </v-col>
                       <v-col md="12" cols="12">
                         <!-- <v-img
@@ -94,7 +94,7 @@
                           <img
                             :src="'http://api.dolphinesia.com/uploads/'+contentDetail.foto"
                             alt
-                            style="object-fit: cover; height:200px; width: 200px;"
+                            style="object-fit: cover; height:500px; width: 100%;"
                           />
                           <p>{{ contentDetail.caption }}</p>
                         </div>
@@ -112,7 +112,7 @@
           <v-col md="4" cols="4">
             <v-card elevation="0">
               <v-col md="12" cols="12">
-                <v-card height="100" width="385" class="grey lighten-4 mt-n3">
+                <v-card height="100" width="" class="grey lighten-4 mt-n3">
                   <v-card-text>
                     <v-form>
                       <v-row>
@@ -138,7 +138,7 @@
               </v-col>
 
               <v-col md="12" cols="12">
-                <v-card class="grey lighten-4 mt-n3" width="385" elevation="0">
+                <v-card class="grey lighten-4 mt-n3" width="" elevation="0">
                   <v-col md="12" cols="12">
                     <!-- <span class="text-subtitle-1"><strong>Kategori</strong></span> -->
                     <v-list class="grey lighten-4">
@@ -293,11 +293,36 @@ export default {
 
 <style scoped>
 .berandapeta {
-  padding: 68px;
-  width: 100%;
-  height: 100%;
+  width: 1274px;
+    height: 213px;
+    left: 0px;
+    top: 0px;
   /* background-size: cover; */
   /* background-color: white; */
-  background: url("../../assets/beranda.png") no-repeat center;
+    background: url("../../assets/image.png") no-repeat center;
+}
+.block-ellipsis {
+  display: block;
+  display: -webkit-box;
+  max-width: 100%;
+  height: 42px;
+  margin: 0 auto;
+  text-align: justify;
+  text-justify: inter-word;
+  font-size: 14px;
+  line-height: 1;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 10px;
+}
+.inform{
+    text-align: justify;
+    text-justify: inter-word;
+}
+.peta{
+    background: linear-gradient(140.65deg, #DC1C13 21.46%, rgba(234, 76, 70, 0.72) 71.29%, rgba(240, 116, 112, 0.38) 89.94%, rgba(241, 149, 155, 0.44) 92.83%, rgba(246, 189, 192, 0.91) 98.02%);
+    border-radius: 8px;
 }
 </style>

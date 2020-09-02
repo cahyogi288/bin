@@ -19,6 +19,29 @@
         </template> -->
         <v-main style="margin-top: 10px;">
             <v-container fluid>
+
+                <v-snackbar
+                v-model="snackbar"
+                :timeout="timeout"
+                color="info"
+                centered
+                top
+                right
+                >
+                {{ text }}
+
+                <template v-slot:action="{ attrs }">
+                    <v-btn
+                    color="white"
+                    text
+                    v-bind="attrs"
+                    @click="snackbar = false"
+                    >
+                    Close
+                    </v-btn>
+                </template>
+                </v-snackbar>
+
                 <v-card>
                     <v-card-title>
                         <v-dialog v-model="dialog" persistent max-width="810px" >
@@ -134,7 +157,7 @@
                                             </v-col>
                                         <!-- <div style="flex:3"> -->
                                             <v-col cols="9" sm="9">
-                                                <v-select
+                                                <v-autocomplete
                                                 v-model="dataNew.negara"
                                                 :items="itemCountry"
                                                 :rules="validForm.negara"
@@ -143,8 +166,8 @@
                                                 filled
                                                 placeholder="Negara"
                                                 outlined
-                                                dense>
-                                                </v-select>
+                                                dense
+                                                ></v-autocomplete>
                                             </v-col>
                                             <!-- <input type="text" class="in" placeholder="Negara..."> -->
                                         </v-row>
@@ -225,121 +248,181 @@
                     </v-dialog>
                     <v-dialog v-model="dialogEdit" persistent max-width="800px" >
                         <v-card>
-                            <v-card-title>
-                                <span class="headline">Edit Akun</span>
+                            <v-tabs
+                            v-model="tab"
+                            >
+                            <v-tabs-slider></v-tabs-slider>
+                            <v-tab> 
+                                Edit Data
+                            </v-tab>
+                                <v-tab-item>
+                                    <v-card-text>
+                                        <!-- <v-card-title>
+                                            <span class="headline">Edit Akun</span>
+                                            <v-spacer />
+                                            <v-btn icon color="grey" @click="dialogEdit = false">
+                                                <v-icon>mdi-close</v-icon>
+                                            </v-btn>
+                                        </v-card-title> -->
+                                        
+                                        <v-card-text>
+                                            <v-form ref="formEdit">
+                                            <v-row>
+                                                <v-col md="12" cols="12">
+                                                    <v-row class="mb-n5">
+                                                        <v-col md="3" cols="3">
+                                                            <label>Nama Pengguna</label>
+                                                        </v-col>
+                                                        <v-col md="9" cols="9">
+                                                            <v-text-field
+                                                            v-model="dataEdit.username"
+                                                            background-color="#EEEEEE"
+                                                            placeholder="Nama Pengguna"
+                                                            outlined
+                                                            dense></v-text-field>
+                                                        </v-col>
+                                                    </v-row>
+
+                                                    <v-row class="mb-n5">
+                                                        <v-col md="3" cols="3">
+                                                            <label>Nama Lengkap</label>
+                                                        </v-col>
+                                                        <v-col md="9" cols="9">
+                                                            <v-text-field
+                                                            v-model="dataEdit.nama"
+                                                            background-color="#EEEEEE"
+                                                            placeholder="Nama Lengkap"
+                                                            outlined
+                                                            dense></v-text-field>
+                                                        </v-col>
+                                                    </v-row>
+                                                    <v-row class="mb-n5">
+                                                        <v-col md="3" cols="3">
+                                                            <label>Email</label>
+                                                        </v-col>
+                                                        <v-col md="9" cols="9">
+                                                            <v-text-field
+                                                            v-model="dataEdit.email"
+                                                            :rules="validFormEdit.emailRules"
+                                                            background-color="#EEEEEE"
+                                                            placeholder="Email"
+                                                            outlined
+                                                            dense></v-text-field>
+                                                        </v-col>
+                                                    </v-row>
+                                                    <v-row class="mb-n5">
+                                                        <v-col md="3" cols="3">
+                                                            <label>NIK</label>
+                                                        </v-col>
+                                                        <v-col md="9" cols="9">
+                                                            <v-text-field
+                                                            v-model="dataEdit.nik"
+                                                            background-color="#EEEEEE"
+                                                            placeholder="NIK"
+                                                            outlined
+                                                            dense></v-text-field>
+                                                        </v-col>
+                                                    </v-row>
+
+                                                    <v-row class="mb-n5">
+                                                        <v-col md="3" cols="3">
+                                                            <label>Negara</label>
+                                                        </v-col>
+                                                        <v-col md="9" cols="9">
+
+                                                            <v-autocomplete
+                                                            v-model="dataEdit.negara"
+                                                            :items="itemCountry"
+                                                            item-text="name"
+                                                            item-value="iso"
+                                                            filled
+                                                            placeholder="Negara"
+                                                            outlined
+                                                            dense
+                                                            ></v-autocomplete>
+                                                            <!-- <v-select
+                                                                v-model="dataEdit.negara"
+                                                                :items="items"
+                                                                filled
+                                                                placeholder="Negara"
+                                                                outlined
+                                                                dense>
+                                                                </v-select> -->
+                                                        </v-col>
+                                                    </v-row>
+
+                                                    <v-row class="mb-n5">
+                                                        <v-col md="3" cols="3">
+                                                            <label>Status</label>
+                                                        </v-col>
+                                                        <v-col md="9" cols="9">
+                                                            <v-select
+                                                            v-model="dataEdit.status"
+                                                            :items="itemsStatus"
+                                                            filled
+                                                            placeholder="Status"
+                                                            outlined
+                                                            dense>
+                                                            </v-select>
+                                                        </v-col>
+                                                    </v-row>
+                                                </v-col>
+                                            </v-row>
+                                            </v-form>
+                                        </v-card-text>
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn color="blue darken-1" text @click="dialogEdit = false">Close</v-btn>
+                                            <v-btn color="blue darken-1" text @click="updateData">Save</v-btn>
+                                        </v-card-actions>
+                                    </v-card-text>
+                                </v-tab-item>
+
+                                <v-tab> 
+                                    Edit Password
+                                </v-tab>
+                                <v-tab-item>
+                                    <v-card-text>
+                                        <v-form
+                                        ref="formPw"
+                                        lazy-validation>
+                                        <v-card-text>
+                                            <v-row>
+                                                <v-col md="12" cols="12">
+                                                    <v-row class="mb-n5">
+                                                        <!-- <v-form
+                                                        ref="formPw"
+                                                        lazy-validation> -->
+                                                            <v-col md="2" cols="2">
+                                                                <label>Password</label>
+                                                            </v-col>
+                                                            <v-col md="8" cols="8">
+                                                                <v-text-field
+                                                                v-model="password"
+                                                                :rules="[...validForm.minSandi, ...validForm.sandi]"
+                                                                background-color="#EEEEEE"
+                                                                placeholder="New Password"
+                                                                outlined
+                                                                dense></v-text-field>
+                                                            </v-col>
+                                                        <!-- </v-form> -->
+                                                    </v-row>
+                                                </v-col>
+                                            </v-row>
+                                        </v-card-text>
+                                        </v-form>
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn color="blue darken-1" text @click="dialogEdit = false">Close</v-btn>
+                                            <v-btn color="blue darken-1" text @click="updatePw">Update</v-btn>
+                                        </v-card-actions>
+                                    </v-card-text>
+                                </v-tab-item>
                                 <v-spacer />
                                 <v-btn icon color="grey" @click="dialogEdit = false">
                                     <v-icon>mdi-close</v-icon>
                                 </v-btn>
-                            </v-card-title>
-                            
-                            <v-card-text>
-                                <v-row>
-                                    <v-col md="12" cols="12">
-                                        <v-row class="mb-n5">
-                                            <v-col md="2" cols="3">
-                                                <label>Nama Pengguna</label>
-                                            </v-col>
-                                            <v-col md="9" cols="9">
-                                                <v-text-field
-                                                v-model="dataEdit.username"
-                                                background-color="#EEEEEE"
-                                                placeholder="Nama Pengguna"
-                                                outlined
-                                                dense></v-text-field>
-                                            </v-col>
-                                        </v-row>
-
-                                        <v-row class="mb-n5">
-                                            <v-col md="2" cols="3">
-                                                <label>Nama Lengkap</label>
-                                            </v-col>
-                                            <v-col md="9" cols="9">
-                                                <v-text-field
-                                                v-model="dataEdit.nama"
-                                                background-color="#EEEEEE"
-                                                placeholder="Nama Lengkap"
-                                                outlined
-                                                dense></v-text-field>
-                                            </v-col>
-                                        </v-row>
-                                        <v-row class="mb-n5">
-                                            <v-col md="2" cols="3">
-                                                <label>Email</label>
-                                            </v-col>
-                                            <v-col md="9" cols="9">
-                                                <v-text-field
-                                                v-model="dataEdit.email"
-                                                :rules="validFormEdit.emailRules"
-                                                background-color="#EEEEEE"
-                                                placeholder="Email"
-                                                outlined
-                                                dense></v-text-field>
-                                            </v-col>
-                                        </v-row>
-                                        <v-row class="mb-n5">
-                                            <v-col md="2" cols="3">
-                                                <label>NIK</label>
-                                            </v-col>
-                                            <v-col md="9" cols="9">
-                                                <v-text-field
-                                                v-model="dataEdit.nik"
-                                                background-color="#EEEEEE"
-                                                placeholder="NIK"
-                                                outlined
-                                                dense></v-text-field>
-                                            </v-col>
-                                        </v-row>
-
-                                        <v-row class="mb-n5">
-                                            <v-col md="2" cols="3">
-                                                <label>Negara</label>
-                                            </v-col>
-                                            <v-col md="9" cols="9">
-                                                <v-select
-                                                v-model="dataEdit.negara"
-                                                :items="itemCountry"
-                                                item-text="name"
-                                                item-value="iso"
-                                                filled
-                                                placeholder="Negara"
-                                                outlined
-                                                dense>
-                                                </v-select>
-                                                <!-- <v-select
-                                                    v-model="dataEdit.negara"
-                                                    :items="items"
-                                                    filled
-                                                    placeholder="Negara"
-                                                    outlined
-                                                    dense>
-                                                    </v-select> -->
-                                            </v-col>
-                                        </v-row>
-
-                                        <v-row class="mb-n5">
-                                            <v-col md="2" cols="3">
-                                                <label>Status</label>
-                                            </v-col>
-                                            <v-col md="9" cols="9">
-                                                <v-select
-                                                v-model="dataEdit.status"
-                                                :items="itemsStatus"
-                                                filled
-                                                placeholder="Status"
-                                                outlined
-                                                dense>
-                                                </v-select>
-                                            </v-col>
-                                        </v-row>
-                                    </v-col>
-                                </v-row>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn color="blue darken-1" text @click="dialogEdit = false">Close</v-btn>
-                                <v-btn color="blue darken-1" text @click="updateData">Save</v-btn>
-                            </v-card-actions>
+                            </v-tabs>
                         </v-card>
                     </v-dialog>
                 </v-card>
@@ -368,11 +451,16 @@ export default {
             dialogEdit: false,
             dialogDelete: false,
             valid: true,
+            password: '',
+            tab: '',
             search: '',
             dataUser: [],
             itemCountry: [],
             options: {},
             deleteById: '',
+            snackbar: false,
+            text: '',
+            timeout: 5000,
             dataNew: {
                 nama: '',
                 nik: '',
@@ -405,8 +493,8 @@ export default {
                 naleng: [ v => !!v || 'Nama Lengkap is required'],
                 nik: [ v => !!v || 'NIK is required'],
                 napeng: [ v => !!v || 'Nama Pengguna is required'],
-                sandi: [ v => !!v || 'Sandi is required'],
-                minSandi: [v => (v || '').length >= 8 || `minimal sandi 8 karakter`],
+                sandi: [ v => !!v || 'Kata Sandi is required'],
+                minSandi: [v => (v || '').length >= 8 || 'minimal sandi 8 karakter'],
                 negara: [ v => !!v || 'Negara is required'],
                 status: [ v => !!v || 'Status is required'],
                 emailRules: [
@@ -439,6 +527,14 @@ export default {
             itemsStatus: ['ADMIN','PEGAWAI'],
              items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
         }
+    },
+    watch: {
+        dialogEdit(newValue, oldValue) {
+            if(newValue == false){
+                this.password = ''
+                this.$refs.formEdit.reset()
+            }
+        },
     },
     mounted () {
         // this.getAllUser();
@@ -502,6 +598,26 @@ export default {
                 this.getAllUser()
                 this.dialogEdit = false
             })
+        },
+        updatePw(){
+            if(this.$refs.formPw.validate()){
+                let data = {
+                    id: this.dataEdit.id,
+                    password: this.password
+                }
+                ApiBin.post('User/editPass', data).then( resp => {
+                    console.log(resp.data)
+                    if(resp.data.data == true){
+                        this.text = 'Password Telah diubah'
+                        this.snackbar = true
+                        this.dialogEdit = false
+                    }
+                    
+                    // this.text = 
+                })
+                // console.log(this.dataEdit.id + ' ' + this.password)
+                
+            }
         },
         actionDelete(item){
             console.log(item)

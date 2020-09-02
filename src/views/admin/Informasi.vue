@@ -57,7 +57,7 @@
                                             <div style="flex:3">
                                                 <!-- <input type="text" class="in" placeholder="Negara..."> -->
                                                 <!-- <VueTagInput v-model="tag_negara" @add="onAdd" ></VueTagInput> -->
-                                                <v-select required
+                                                <v-autocomplete
                                                 v-model="tag_negara"
                                                 :items="itemCountry"
                                                 :rules="validForm.c"
@@ -69,17 +69,8 @@
                                                 chips
                                                 multiple
                                                 deletable-chips
-                                                dense>
-                                                </v-select>
-                                                <!-- <v-select
-                                                v-model="tag_negara"
-                                                :items="item_tag_negara"
-                                                chips
-                                                label="Chips"
-                                                multiple
-                                                solo> -->
-
-                                                <!-- </v-select> -->
+                                                dense
+                                                ></v-autocomplete>
                                             </div>
                                         </div>
                                         <div style="display:flex; flex-direction:row; align-items:center;">
@@ -238,7 +229,7 @@
                                 
                                 </v-card-text>
                                 <v-card-actions>
-                                    <v-btn class="ma-2 white--text" small rounded color="#B2DFDB" @click="openInput"> <v-icon dark>mdi-plus</v-icon>Input</v-btn>
+                                    <!-- <v-btn class="ma-2 white--text" small rounded color="#B2DFDB" @click="openInput"> <v-icon dark>mdi-plus</v-icon>Input</v-btn> -->
                                     
                                     <v-spacer></v-spacer>
                                     <v-btn class="ma-6 white--text" @click="reset" color="#EEEEEE  " width="100">Reset</v-btn>
@@ -373,7 +364,7 @@
                                                         <label>Negara</label>
                                                     </div>
                                                     <div style="flex:3">
-                                                        <v-select
+                                                        <v-autocomplete
                                                         v-model="dataEdit.country"
                                                         :items="itemCountry"
                                                         item-text="name"
@@ -384,8 +375,8 @@
                                                         chips
                                                         multiple
                                                         deletable-chips
-                                                        dense>
-                                                        </v-select>
+                                                        dense
+                                                        ></v-autocomplete>
                                                         
                                                     </div>
                                                 </div>

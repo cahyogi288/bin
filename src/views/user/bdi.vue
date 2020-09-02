@@ -4,8 +4,8 @@
 
     <v-main class="mt-n3">
       <v-container fluid>
-        <v-card class="px-auto rounded-xl" elevation="0">
-          <div class="berandapeta rounded-xl">
+        <v-card class="peta px-auto rounded-xl" elevation="0">
+          <div class="berandapeta rounded-xl d-flex">
             <v-row align="center" justify="center">
               <v-col md="12" sm="12" cols="12">
                 <span>
@@ -16,7 +16,7 @@
           </div>
         </v-card>
 
-        <v-row class="ml-4" style>
+        <v-row class="" style>
           <v-col v-if="countContent & !rowDetail" md="8" cols="12">
             <v-card class="grey lighten-4">
               <v-row>
@@ -169,7 +169,7 @@
           <v-col md="4" cols="4">
             <v-card elevation="0">
               <v-col md="12" cols="12">
-                <v-card height="100" width="385" class="grey lighten-4 mt-n3">
+                <v-card height="100" width="" class="grey lighten-4 mt-n3">
                   <v-card-text>
                     <v-form>
                       <v-row>
@@ -195,7 +195,7 @@
               </v-col>
 
               <v-col md="12" cols="12">
-                <v-card class="grey lighten-4 mt-n3" width="385" elevation="0">
+                <v-card class="grey lighten-4 mt-n3" width="" elevation="0">
                   <v-col md="12" cols="12">
                     <!-- <span class="text-subtitle-1"><strong>Kategori</strong></span> -->
                     <v-list class="grey lighten-4">
@@ -285,13 +285,18 @@ export default {
       }
     },
     getBerita() {
-      let kategori = { kategori: localStorage.getItem("namaContent") };
+        let user = JSON.parse(localStorage.getItem("descUser"))
+        let kategori = { 
+                kategori: localStorage.getItem("namaContent"),
+                country:  user[0].countryId
+            };
+
       ApiBin.post("Konten/getByKategori", kategori).then((resp) => {
         // console.log(resp.data)
         this.content = resp.data.data;
         this.oldData = resp.data.data;
         this.countContent = this.content.length;
-        console.log(this.countContent);
+        console.log(this.content);
       });
     },
     onChange() {
@@ -321,12 +326,17 @@ export default {
 </script>
 
 <style scoped>
+.peta{
+    background: linear-gradient(140.65deg, #DC1C13 21.46%, rgba(234, 76, 70, 0.72) 71.29%, rgba(240, 116, 112, 0.38) 89.94%, rgba(241, 149, 155, 0.44) 92.83%, rgba(246, 189, 192, 0.91) 98.02%);
+    border-radius: 8px;
+}
 .berandapeta {
-  padding: 68px;
-  width: 100%;
-  height: 100%;
+    width: 1274px;
+    height: 213px;
+    left: 0px;
+    top: 0px;
   /* background-size: cover; */
   /* background-color: white; */
-  background: url("../../assets/beranda.png") no-repeat center;
+    background: url("../../assets/image.png") no-repeat center;
 }
 </style>

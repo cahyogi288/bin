@@ -4,10 +4,17 @@
         color="white"
         dense
         elevation="0"
+        class="mb-2"
         >
         <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
         <v-toolbar-title>Page title</v-toolbar-title> -->
+        <v-avatar class="">
+            <img
+            src="../assets/bin.png"
+            alt="John"
+            >
+        </v-avatar>
 
         <v-spacer></v-spacer>
 
