@@ -70,8 +70,8 @@
                                     prepend-icon="mdi-lock">
                                     </v-text-field>
                                     <v-btn 
-                                    class="white--text" 
-                                    color="#FFF42E" 
+                                    class="black--text" 
+                                    color="rgb(255, 221, 0)" 
                                     style="padding-left:50px; padding-right: 50px"
                                     @click="onLogin" 
                                     rounded>
