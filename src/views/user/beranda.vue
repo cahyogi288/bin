@@ -142,7 +142,7 @@
                             </v-col>
                             <v-col md="4" cols="4">
                               <v-img
-                                height="10"
+                                height="150"
                                 width="200"
                                 :src="'http://api.dolphinesia.com/uploads/'+ item.foto"
                               ></v-img>
@@ -251,16 +251,19 @@
         </v-row>
       </v-container>
     </v-main>
+    <Footer />
   </v-app>
 </template>
 
 <script>
 import Appbar from "@/components/Appbar-user.vue";
+import Footer from '@/components/Footer.vue'
 import { ApiBin } from "@/api/base_api";
 
 export default {
   components: {
     Appbar,
+    Footer
   },
   data() {
     return {

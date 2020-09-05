@@ -40,7 +40,7 @@
                         </v-card-subtitle>
                         <v-card-text>
                           <div
-                            style=" white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                            style=""
                           >
                             <span v-trim v-html="item.informasi"></span>
                           </div>
@@ -220,16 +220,19 @@
         </v-row>
       </v-container>
     </v-main>
+    <Footer />
   </v-app>
 </template>
 
 <script>
 import Appbar from "@/components/Appbar-user.vue";
+import Footer from '@/components/Footer.vue'
 import { ApiBin } from "@/api/base_api";
 
 export default {
   components: {
     Appbar,
+    Footer
   },
   data() {
     return {

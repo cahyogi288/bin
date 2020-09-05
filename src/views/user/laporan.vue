@@ -55,7 +55,7 @@
                           <div
                             style="height:30px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
                           >
-                            <span class="inform block-ellipsis" v-trim v-html="item.informasi"></span>
+                            <span class="inform block-ellipsis" v-html="item.informasi"></span>
                           </div>
                           <v-btn @click="detailBerita(item)" class="mt-3" color="primary">
                             Lihat
@@ -163,16 +163,19 @@
         </v-row>
       </v-container>
     </v-main>
+    <Footer />
   </v-app>
 </template>
 
 <script>
 import Appbar from "@/components/Appbar-user.vue";
+import Footer from '@/components/Footer.vue'
 import { ApiBin } from "@/api/base_api";
 
 export default {
   components: {
     Appbar,
+    Footer
   },
   data() {
     return {
