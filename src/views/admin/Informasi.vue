@@ -88,12 +88,11 @@
                                                 dense></v-text-field>
                                             </div>
                                         </div>
-                                        <div style="display:flex; flex-direction:row; align-items:center;">
+                                        <!-- <div style="display:flex; flex-direction:row; align-items:center;">
                                             <div style="flex:1">
                                                 <label>Waktu Input</label>
                                             </div>
                                             <div style="flex:3">
-                                                <!-- <input type="text" class="in" placeholder="Waktu Input..."> -->
                                                 <v-menu required
                                                     ref="menu"
                                                     v-model="menu"
@@ -122,14 +121,8 @@
                                                     <v-btn text color="primary" @click="$refs.menu.save(dataNew.createdAt)">OK</v-btn>
                                                     </v-date-picker>
                                                 </v-menu>
-                                                <!-- <v-text-field
-                                                v-model="dataNew.createdAt"
-                                                background-color="#EEEEEE"
-                                                label="Waktu Input"
-                                                outlined
-                                                dense></v-text-field> -->
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div style="display:flex; flex-direction:row; align-items:center;">
                                             <div style="flex:1">
                                                 <label>Kategori</label>
@@ -183,7 +176,7 @@
                                                 <label>File Dokumen</label>
                                             </div>
                                             <div style="flex:3">
-                                                <input ref="file" type="file" @change="fileDokumen" class="in" placeholder="File...">
+                                                <input ref="file" :rules="validForm.fileDokumen" type="file" @change="fileDokumen" class="in" placeholder="File...">
                                             </div>
                                         </div>
                                         <div style="display:flex; flex-direction:row; align-items:center; margin-bottom:30px;">
@@ -393,7 +386,7 @@
                                                         dense></v-text-field>
                                                     </div>
                                                 </div>
-                                                <div style="display:flex; flex-direction:row; align-items:center;">
+                                                <!-- <div style="display:flex; flex-direction:row; align-items:center;">
                                                     <div style="flex:1">
                                                         <label>Waktu Input</label>
                                                     </div>
@@ -405,7 +398,7 @@
                                                         outlined
                                                         dense></v-text-field>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div style="display:flex; flex-direction:row; align-items:center;">
                                                     <div style="flex:1">
                                                         <label>Kategori</label>
@@ -502,7 +495,7 @@ export default {
         return{
             tag_negara: [],
             itemCountry: [],
-            kategoris: ['PWNI', 'Terorisme', 'Kejahatan Lintas Batas', 'Separatisme', 'BDI', 'Laporan Bulanan'],
+            kategoris: ['PWNI', 'Terorisme', 'Kejahatan Lintas Batas', 'Separatisme', 'BDI'],
             plusInput: true,
             menu: false,
             valid:true,
@@ -574,6 +567,7 @@ export default {
                 foto: [ v => !!v || 'Foto is required'],
                 caption: [ v => !!v || 'Caption is required'],
                 informasi: [ v => !!v || 'Informasi is required'],
+                fileDokumen: [ v => !!v || 'File Dokumen is required'],
             },
             dataInputEdit: new FormData(),
             dataInput: new FormData(),

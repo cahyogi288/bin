@@ -3,8 +3,9 @@
         <v-app-bar
         color="white"
         dense
-        elevation="0"
+        elevation="5"
         class="mb-2"
+        fixed
         >
         <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
