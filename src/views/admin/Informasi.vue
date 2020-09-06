@@ -225,7 +225,7 @@
                                     <!-- <v-btn class="ma-2 white--text" small rounded color="#B2DFDB" @click="openInput"> <v-icon dark>mdi-plus</v-icon>Input</v-btn> -->
                                     
                                     <v-spacer></v-spacer>
-                                    <v-btn class="ma-6 white--text" @click="reset" color="#EEEEEE  " width="100">Reset</v-btn>
+                                    <!-- <v-btn class="ma-6 white--text" @click="reset" color="#EEEEEE  " width="100">Reset</v-btn> -->
                                     <v-btn class="ma-2" @click="newData" color="accent" width="100">Submit</v-btn>
                                     <!-- <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
                                     <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn> -->
@@ -459,7 +459,7 @@
                                         </v-card-text>
                                         <v-card-actions>
                                             <v-spacer></v-spacer>
-                                            <v-btn class="ma-6 white--text" color="#EEEEEE"  @click="dialog = false" width="100">Close</v-btn>
+                                            <!-- <v-btn class="ma-6 white--text" color="#EEEEEE"  @click="dialog = false" width="100">Close</v-btn> -->
                                             <v-btn class="ma-2" @click="updateData" color="accent" width="100">Edit</v-btn>
                                         </v-card-actions>
                                     </v-card>
@@ -805,7 +805,19 @@ export default {
             this.dataDetail = {};
         },
         reset() {
+            this.tags = []
+            this.dataInput= new FormData()
             this.$refs.form.reset()
+            this.dataNew ={
+                    country:[],
+                    heading:"",
+                    createdAt:"",
+                    kategori:"",
+                    tags:[],
+                    foto:new FormData(),
+                    caption:"",
+                    informasi:"<h1>Some initial content</h1>",
+                }
         },
         contentDetail(item){
             this.dataDetail.foto = 'http://api.dolphinesia.com/uploads/'+item.foto

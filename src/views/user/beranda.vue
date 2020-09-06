@@ -193,7 +193,7 @@
                       <v-col md="12" cols="12">
                         <div class="text-body-1" v-html="contentDetail.informasi"></div>
                         
-                          <p><a :href="'http://api.dolphinesia.com/uploads/'+contentDetail.document" :download="contentDetail.document"  target="_blank">Download</a></p>
+                          <p><a :href="'http://api.dolphinesia.com/uploads/'+contentDetail.document" download="file_dokumen"  target="_blank">Download</a></p>
                       </v-col>
                     </v-row>
                   </v-card-title>
