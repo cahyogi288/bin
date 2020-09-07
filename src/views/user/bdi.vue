@@ -4,7 +4,7 @@
 
     <v-main class="mt-n3">
       <v-container fluid>
-        <v-card class="peta px-auto rounded-xl" elevation="0">
+        <v-card class="peta px-auto rounded-xl mt-13" elevation="7">
           <div class="berandapeta rounded-xl d-flex">
             <v-row align="center" justify="center">
               <v-col md="12" sm="12" cols="12">
@@ -151,13 +151,14 @@
                           <img
                             :src="'http://api.dolphinesia.com/uploads/'+contentDetail.foto"
                             alt
-                            style="object-fit: cover; height:200px; width: 200px;"
+                            style="object-fit: cover; height:100%; width: 100%;"
                           />
                           <p>{{ contentDetail.caption }}</p>
                         </div>
                       </v-col>
                       <v-col md="12" cols="12">
                         <div class="text-body-1" v-html="contentDetail.informasi"></div>
+                        <p><a :href="'http://api.dolphinesia.com/uploads/'+contentDetail.document" download="file_dokumen"  target="_blank">Download</a></p>
                       </v-col>
                     </v-row>
                   </v-card-title>
