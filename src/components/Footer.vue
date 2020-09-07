@@ -1,5 +1,5 @@
 <template>
-    <v-footer v-if="role == 'ADMIN'" style="background-color: #a6a6a6" class="rounded-lg ">
+    <v-footer v-if="role == 'ADMIN'" style="background-color: #a6a6a6; margin-left: 240px;" class="rounded-lg mr-3">
       <v-spacer></v-spacer>
       <div>One Mission BIN v.1.0.0</div>
     </v-footer>

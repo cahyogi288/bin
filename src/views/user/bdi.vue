@@ -17,7 +17,7 @@
         </v-card>
 
         <v-row class="" style>
-          <v-col v-if="countContent & !rowDetail" md="8" cols="12">
+          <v-col v-if="countContent>=1 & !rowDetail" md="8" cols="12">
             <v-card class="grey lighten-4">
               <v-row>
                 <!-- <div> -->

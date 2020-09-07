@@ -17,6 +17,7 @@
         <!-- <template>
             <v-app style="backround-color:#E0E0E0;"></v-app>
         </template> -->
+
         <v-main style="margin-top: 10px;">
             <v-container fluid>
 
@@ -266,7 +267,10 @@
                                         </v-card-title> -->
                                         
                                         <v-card-text>
-                                            <v-form ref="formEdit">
+                                            <v-form 
+                                            ref="formEdit"
+                                            v-model="valid"
+                                            lazy-validation>
                                             <v-row>
                                                 <v-col md="12" cols="12">
                                                     <v-row class="mb-n5">
@@ -276,6 +280,7 @@
                                                         <v-col md="9" cols="9">
                                                             <v-text-field
                                                             v-model="dataEdit.username"
+                                                            :rules="validForm.napeng"
                                                             background-color="#EEEEEE"
                                                             placeholder="Nama Pengguna"
                                                             outlined
@@ -290,6 +295,7 @@
                                                         <v-col md="9" cols="9">
                                                             <v-text-field
                                                             v-model="dataEdit.nama"
+                                                            :rules="validForm.naleng"
                                                             background-color="#EEEEEE"
                                                             placeholder="Nama Lengkap"
                                                             outlined
@@ -317,6 +323,7 @@
                                                         <v-col md="9" cols="9">
                                                             <v-text-field
                                                             v-model="dataEdit.nik"
+                                                            :rules="validForm.nik"
                                                             background-color="#EEEEEE"
                                                             placeholder="NIK"
                                                             outlined
@@ -333,6 +340,7 @@
                                                             <v-autocomplete
                                                             v-model="dataEdit.negara"
                                                             :items="itemCountry"
+                                                            :rules="validForm.negara"
                                                             item-text="name"
                                                             item-value="iso"
                                                             filled
@@ -359,6 +367,7 @@
                                                             <v-select
                                                             v-model="dataEdit.status"
                                                             :items="itemsStatus"
+                                                            :rules="validForm.status"
                                                             filled
                                                             placeholder="Status"
                                                             outlined
@@ -428,7 +437,7 @@
                 </v-card>
             </v-container>
         </v-main>
-
+    
         <Footer />
     </v-app>
 </template>
@@ -558,6 +567,8 @@ export default {
                     this.getAllUser()
                     this.$refs.form.reset()
                     this.dialog = false
+                    this.text = 'Data Berhasil ditambahkan'
+                    this.snackbar = true
                 // if(resp.data)
                     this.dataNew= {
                         nama: '',
@@ -593,11 +604,17 @@ export default {
             this.dialogEdit = true
         },
         updateData(){
-            ApiBin.post('User/updateUser', this.dataEdit).then( resp => {
-                console.log(resp)
-                this.getAllUser()
-                this.dialogEdit = false
-            })
+            if(this.$refs.formEdit.validate()){
+                ApiBin.post('User/updateUser', this.dataEdit).then( resp => {
+                    console.log(resp)
+                    this.getAllUser()
+                    this.dialogEdit = false
+                    this.text = 'Data Berhasil diubah'
+                    this.snackbar = true
+                })
+            }else{
+                console.log('gamasuk')
+            }
         },
         updatePw(){
             if(this.$refs.formPw.validate()){

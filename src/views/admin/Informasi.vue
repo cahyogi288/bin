@@ -17,6 +17,28 @@
         <Sidebar/>
         <Appbar />
 
+        <v-snackbar
+        v-model="snackbar"
+        :timeout="timeout"
+        color="info"
+        centered
+        top
+        right
+        >
+        {{ textSnack }}
+
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                color="white"
+                text
+                v-bind="attrs"
+                @click="snackbar = false"
+                >
+                Close
+                </v-btn>
+            </template>
+        </v-snackbar>
+
         <v-main style="margin-top: 10px;">
             <v-container fluid>
                 <v-card>
@@ -38,7 +60,7 @@
                                     <v-card-title>
                                         <span class="headline">Tambah Informasi</span>
                                     </v-card-title>
-                                    <v-btn icon color="grey" @click="removeForm">
+                                    <v-btn icon color="grey" @click="dialog = false">
                                         <v-icon>mdi-close</v-icon>
                                     </v-btn>
                                 </div>
@@ -153,7 +175,7 @@
                                                 <label>Foto</label>
                                             </div>
                                             <div style="flex:3">
-                                                <input required ref="file" type="file" @change="images" class="in" placeholder="Foto...">
+                                                <input required ref="file" type="file" @change="images" accept="image/*" class="in" placeholder="Foto...">
                                             </div>
                                         </div>
                                         <div style="display:flex; flex-direction:row; align-items:center;">
@@ -176,7 +198,7 @@
                                                 <label>File Dokumen</label>
                                             </div>
                                             <div style="flex:3">
-                                                <input ref="file" :rules="validForm.fileDokumen" type="file" @change="fileDokumen" class="in" placeholder="File...">
+                                                <input ref="file1" :rules="validForm.fileDokumen" type="file" @change="fileDokumen" accept=".pdf" class="in" placeholder="File...">
                                             </div>
                                         </div>
                                         <div style="display:flex; flex-direction:row; align-items:center; margin-bottom:30px;">
@@ -352,6 +374,10 @@
                                         <v-card-text>
                                         <v-container v-if="plusInput">
                                             <!-- <v-row> -->
+                                            <v-form
+                                            ref="formEdit"
+                                            v-model="valid"
+                                            lazy-validation>
                                                 <div style="display:flex; flex-direction:row; align-items:center;">
                                                     <div style="flex:1">
                                                         <label>Negara</label>
@@ -360,6 +386,7 @@
                                                         <v-autocomplete
                                                         v-model="dataEdit.country"
                                                         :items="itemCountry"
+                                                        :rules="validForm.c"
                                                         item-text="name"
                                                         item-value="iso"
                                                         filled
@@ -380,6 +407,7 @@
                                                     <div style="flex:3">
                                                         <v-text-field
                                                         v-model="dataEdit.heading"
+                                                        :rules="validForm.heading"
                                                         background-color="#EEEEEE"
                                                         label="Judul Informasi"
                                                         outlined
@@ -407,6 +435,7 @@
                                                         <v-select
                                                         v-model="dataEdit.kategori"
                                                         :items="kategoris"
+                                                        :rules="validForm.kategori"
                                                         background-color="#EEEEEE"
                                                         label="Kategori"
                                                         outlined
@@ -436,6 +465,7 @@
                                                     <div style="flex:3">
                                                         <v-text-field
                                                         v-model="dataEdit.caption"
+                                                        :rules="validForm.caption"
                                                         background-color="#EEEEEE"
                                                         label="Deskripsi Foto"
                                                         outlined
@@ -452,8 +482,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
-                                            <small>*indicates required field</small>
+                                                    
+                                                <small>*indicates required field</small>
+                                            </v-form>
                                         </v-container>
                                         
                                         </v-card-text>
@@ -513,6 +544,9 @@ export default {
             dialogDetail: false,
             dialogEdit: false,
             dialogDelete: false,
+            snackbar: false,
+            timeout: 5000,
+            textSnack: '',
             search  : '',
             headers : [
                 // {
@@ -560,7 +594,7 @@ export default {
             },
             validForm: {
                 heading: [ v => !!v || 'Judul Informasi is required'],
-                c: [ v => !!v || 'Negara is required'],
+                c: [ v => v.length >= 1 || 'Negara is required'],
                 createdAt: [ v => !!v || 'Waktu Input is required'],
                 kategori: [ v => !!v || 'Kategori is required'],
                 tags: [ v => !!v || 'Tags is required'],
@@ -608,12 +642,33 @@ export default {
         this.getDataKonten();
         this.getCountry();
     },
+    watch: {
+        dialog(newValue, oldValue) {
+            // console.log(newValue)
+            if(newValue == false){
+                if(this.$refs.file){
+                this.$refs.file.value = null;
+                }
+                if(this.$refs.file1){
+                    this.$refs.file1.value = null;
+                }
+                this.tags = []
+                this.tag_negara = []
+                this.dataNew.informasi = '<h1>Some initial content</h1>'
+                this.$refs.form.reset()
+                this.dialog = false
+            }
+        }
+    },
     methods:{
         removeForm(){
             this.tag_negara = []
             this.tags = []
             if(this.$refs.file){
                 this.$refs.file.value = null;
+            }
+            if(this.$refs.file1){
+                this.$refs.file1.value = null;
             }
             this.dataNew = {
                 country:[],
@@ -628,72 +683,79 @@ export default {
             this.dialog = false
         },
         newData(){
-            // if(this.$refs.form.validate()){
-                // this.dataNew.informasi.push(this.content)
-                // this.dataNew.country.push(this.tag_negara)
-                // this.dataNew.tags.push(this.tags)
-                // console.log(this.dataNew)
-                 const tag = [
-                    ]
+            const file = this.$refs.file.files[0];
+            const file1 = this.$refs.file1.files[0];
+            const lengthTags = this.tags.length
+            if(!file || !file1){
+                alert('Harap pilih file')
+            }else{
+                if(lengthTags < 1){
+                    alert('Tags masih kosong')
+                }else{
+                    if(this.$refs.form.validate()){
+                    // alert('masuk')
+                    // this.dataNew.informasi.push(this.content)
+                    // this.dataNew.country.push(this.tag_negara)
+                    // this.dataNew.tags.push(this.tags)
+                    // console.log(this.dataNew)
+                        const tag = []
 
-                    const countryS = [
-                    ]
-                this.tags.forEach((value, index) => {
-                    // const obj ={ name : value}
-                    // console.log("obj : " + obj)
-                    // console.log("value : "+value)
-                    // this.tag.listTag.push({name : value});
-                    tag.push({name : value})
-                });
-                this.tag_negara.forEach((value, index) => {
-                    // const obj ={ name : value}
-                    // console.log("obj : " + obj)
-                    // console.log("value : "+value)
-                    // this.countryList.data.push({name : value});
-                    countryS.push({name : value})
-                });
-                // $.each(this.tags, function(key, value) {
-                //     this.tag.listTag.push({name : key});
-                // });
-                // $.each(this.tag_negara, function(key, value) {
-                //     this.countryList.data.push({name : key});
-                // });
-                console.log(this.tags)
-                console.log(this.tag_negara)
-                console.log( countryS)
-                console.log( tag)
-                this.dataInput.append('country',JSON.stringify(countryS))
-                this.dataInput.append('heading', this.dataNew.heading)
-                this.dataInput.append('createdAt',this.dataNew.createdAt)
-                this.dataInput.append('kategori',this.dataNew.kategori)
-                this.dataInput.append('Alltag',JSON.stringify(tag))
-                this.dataInput.append('caption',this.dataNew.caption)
-                this.dataInput.append('informasi',this.dataNew.informasi)
-                this.dataInput.append('sub_heading','')
-                console.log(this.dataInput)
+                            const countryS = []
+                        this.tags.forEach((value, index) => {
+                            // const obj ={ name : value}
+                            // console.log("obj : " + obj)
+                            // console.log("value : "+value)
+                            // this.tag.listTag.push({name : value});
+                            tag.push({name : value})
+                        });
+                        this.tag_negara.forEach((value, index) => {
+                            // const obj ={ name : value}
+                            // console.log("obj : " + obj)
+                            // console.log("value : "+value)
+                            // this.countryList.data.push({name : value});
+                            countryS.push({name : value})
+                        });
+                        // $.each(this.tags, function(key, value) {
+                        //     this.tag.listTag.push({name : key});
+                        // });
+                        // $.each(this.tag_negara, function(key, value) {
+                        //     this.countryList.data.push({name : key});
+                        // });
+                        console.log(this.tags)
+                        console.log(this.tag_negara)
+                        console.log( countryS)
+                        console.log( tag)
+                        this.dataInput.append('country',JSON.stringify(countryS))
+                        this.dataInput.append('heading', this.dataNew.heading)
+                        this.dataInput.append('createdAt',this.dataNew.createdAt)
+                        this.dataInput.append('kategori',this.dataNew.kategori)
+                        this.dataInput.append('Alltag',JSON.stringify(tag))
+                        this.dataInput.append('caption',this.dataNew.caption)
+                        this.dataInput.append('informasi',this.dataNew.informasi)
+                        this.dataInput.append('sub_heading','')
+                        console.log(this.dataInput)
 
-            // }
-            // console.log(this.dataNew)
-            ApiBin.post('Konten/create', this.dataInput).then( resp => {
-                console.log(resp)
-                this.tags = []
-                this.$refs.file.value = null;
-                this.$refs.form.reset()
-                this.getDataKonten()
-                this.dialog = false
-                this.dataInput= new FormData()
-                this.dataNew ={
-                    country:[],
-                    heading:"",
-                    createdAt:"",
-                    kategori:"",
-                    tags:[],
-                    foto:new FormData(),
-                    caption:"",
-                    informasi:"<h1>Some initial content</h1>",
+                    // }
+                    // console.log(this.dataNew)
+                        ApiBin.post('Konten/create', this.dataInput).then( resp => {
+                            console.log(resp)
+                            // this.tag_negara = []
+                            // this.tags = []
+                            // this.$refs.file.value = null;
+                            // this.$refs.file1.value = null;
+                            // this.$refs.form.reset()                 
+                            // this.dataInput= new FormData()
+                            // this.dataNew.informasi = '<h1>Some initial content</h1>'
+                            this.getDataKonten()
+                            this.dialog = false
+                            this.textSnack = 'Data Berhasil ditambahkan'
+                            this.snackbar = true
+                            // if(resp.data)
+                        })
+                    }
                 }
-                // if(resp.data)
-            })
+            }
+            
         },
         actionDelete(item){
             console.log(item)
@@ -708,52 +770,64 @@ export default {
             })
         },
         updateData(){
-            const tag = []
-            const countryS = []
-            this.dataEdit.tags.forEach((value, index) => {
-                tag.push({name : value})
-            });
-            this.dataEdit.country.forEach((value, index) => {
-                countryS.push({name : value})
-            });
-            
-            this.dataInputEdit.append('country',JSON.stringify(countryS))
-            this.dataInputEdit.append('heading', this.dataEdit.heading)
-            this.dataInputEdit.append('createdAt',this.dataEdit.createdAt)
-            this.dataInputEdit.append('kategori',this.dataEdit.kategori)
-            this.dataInputEdit.append('Alltag',JSON.stringify(tag))
-            this.dataInputEdit.append('caption',this.dataEdit.caption)
-            this.dataInputEdit.append('informasi',this.dataEdit.informasi)
-            this.dataInputEdit.append('sub_heading','')
-            this.dataInputEdit.append('id',this.dataEdit.id)
-            // this.dataInputEdit.append('updateFoto',this.dataUpdateFoto)
-            // this.dataUpdateFoto)
-            // this.dataInputEdit.append('foto','')
+            const lengthTags = this.dataEdit.tags.length
 
-            // console.log(this.dataInputEdit)
+            if(lengthTags < 1){
+                alert('Tags masih kosong')
+            }else{
+                if(this.$refs.formEdit.validate()){
+                    // alert('masuk')
+                    const tag = []
+                    const countryS = []
+                    this.dataEdit.tags.forEach((value, index) => {
+                        tag.push({name : value})
+                    });
+                    this.dataEdit.country.forEach((value, index) => {
+                        countryS.push({name : value})
+                    });
+                    
+                    this.dataInputEdit.append('country',JSON.stringify(countryS))
+                    this.dataInputEdit.append('heading', this.dataEdit.heading)
+                    this.dataInputEdit.append('createdAt',this.dataEdit.createdAt)
+                    this.dataInputEdit.append('kategori',this.dataEdit.kategori)
+                    this.dataInputEdit.append('Alltag',JSON.stringify(tag))
+                    this.dataInputEdit.append('caption',this.dataEdit.caption)
+                    this.dataInputEdit.append('informasi',this.dataEdit.informasi)
+                    this.dataInputEdit.append('sub_heading','')
+                    this.dataInputEdit.append('id',this.dataEdit.id)
+                    // this.dataInputEdit.append('updateFoto',this.dataUpdateFoto)
+                    // this.dataUpdateFoto)
+                    // this.dataInputEdit.append('foto','')
 
-            let apiUpdateData = 'Konten/updateWithoutFoto'
-            if(this.dataUpdateFoto == true){
-                apiUpdateData ='Konten/upload'
-            }
-            ApiBin.post(apiUpdateData, this.dataInputEdit).then( resp => {
-                console.log(resp)
-                this.getDataKonten()
-                this.dialogEdit = false
-                this.dataEdit={
-                    id:"",
-                    country:[],
-                    heading:"",
-                    createdAt:"",
-                    kategori:"",
-                    tags:[],
-                    foto:"",
-                    caption:"",
-                    informasi:"",
+                    // console.log(this.dataInputEdit)
+
+                    let apiUpdateData = 'Konten/updateWithoutFoto'
+                    if(this.dataUpdateFoto == true){
+                        apiUpdateData ='Konten/upload'
+                    }
+                    ApiBin.post(apiUpdateData, this.dataInputEdit).then( resp => {
+                        console.log(resp)
+                        this.getDataKonten()
+                        this.dialogEdit = false
+                        this.dataEdit={
+                            id:"",
+                            country:[],
+                            heading:"",
+                            createdAt:"",
+                            kategori:"",
+                            tags:[],
+                            foto:"",
+                            caption:"",
+                            informasi:"",
+                        }
+                        this.dataInputEdit = new FormData()
+                        this.dataUpdateFoto = false;
+                        this.textSnack = 'Data Berhasil diupdate'
+                        this.snackbar = true
+                    })
                 }
-                this.dataInputEdit = new FormData()
-                this.dataUpdateFoto = false;
-            })
+            }
+           
         },
         editdata(item) {
             if(item.tags != null){
@@ -773,7 +847,7 @@ export default {
             this.dataEdit.informasi = item.informasi
 
             this.dialogEdit = true
-            // console.log(this.dataEdit)
+            console.log(this.dataEdit)
             // console.log(item.country)
         },
         onAddition(tag) {

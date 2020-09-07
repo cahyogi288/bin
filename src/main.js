@@ -8,7 +8,7 @@ import moment from 'moment';
 
 Vue.filter('date', function(value) {
     var locale = window.navigator.userLanguage || window.navigator.language;
-    moment.locale(locale);
+    moment.locale('id');
     return moment(value).format('dddd, DD MMMM YYYY');
 })
 

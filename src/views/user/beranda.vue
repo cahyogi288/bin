@@ -41,7 +41,7 @@
                     <v-row>
                       <v-col md="4" cols="4">
                         <v-img
-                          height="200"
+                          height="250"
                           width="300"
                           :src="'http://api.dolphinesia.com/uploads/'+ item[0].foto"
                         ></v-img>
@@ -53,6 +53,9 @@
                             <v-card-subtitle class="ml-n4">
                                 <span>{{ item[0].createdAt | date }}</span>
                             </v-card-subtitle>
+                            <div>
+                              <span class="text-subtitle-1" v-trim v-html="item[0].informasi"></span>
+                            </div>
                           <!-- <v-col class="" md="8" cols="8"> -->
                             <v-btn @click="detailBerita(item[0])"  color="primary">
                             Lihat
@@ -283,6 +286,15 @@ export default {
         // { title: 'Laporan Bulanan', link: '/laporan' }
       ],
     };
+  },
+  directives: {
+    trim: {
+      inserted: function (el) {
+        var str = el.innerHTML;
+        var resultString = str.split(" ").slice(0, 30).join(" ") + "...";
+        el.innerHTML = resultString;
+      },
+    },
   },
   mounted() {
     this.getContentByCountry();
