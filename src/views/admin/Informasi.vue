@@ -88,12 +88,11 @@
                                                 dense></v-text-field>
                                             </div>
                                         </div>
-                                        <div style="display:flex; flex-direction:row; align-items:center;">
+                                        <!-- <div style="display:flex; flex-direction:row; align-items:center;">
                                             <div style="flex:1">
                                                 <label>Waktu Input</label>
                                             </div>
                                             <div style="flex:3">
-                                                <!-- <input type="text" class="in" placeholder="Waktu Input..."> -->
                                                 <v-menu required
                                                     ref="menu"
                                                     v-model="menu"
@@ -122,14 +121,8 @@
                                                     <v-btn text color="primary" @click="$refs.menu.save(dataNew.createdAt)">OK</v-btn>
                                                     </v-date-picker>
                                                 </v-menu>
-                                                <!-- <v-text-field
-                                                v-model="dataNew.createdAt"
-                                                background-color="#EEEEEE"
-                                                label="Waktu Input"
-                                                outlined
-                                                dense></v-text-field> -->
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div style="display:flex; flex-direction:row; align-items:center;">
                                             <div style="flex:1">
                                                 <label>Kategori</label>
@@ -183,7 +176,7 @@
                                                 <label>File Dokumen</label>
                                             </div>
                                             <div style="flex:3">
-                                                <input ref="file" type="file" @change="fileDokumen" class="in" placeholder="File...">
+                                                <input ref="file" :rules="validForm.fileDokumen" type="file" @change="fileDokumen" class="in" placeholder="File...">
                                             </div>
                                         </div>
                                         <div style="display:flex; flex-direction:row; align-items:center; margin-bottom:30px;">
@@ -232,7 +225,7 @@
                                     <!-- <v-btn class="ma-2 white--text" small rounded color="#B2DFDB" @click="openInput"> <v-icon dark>mdi-plus</v-icon>Input</v-btn> -->
                                     
                                     <v-spacer></v-spacer>
-                                    <v-btn class="ma-6 white--text" @click="reset" color="#EEEEEE  " width="100">Reset</v-btn>
+                                    <!-- <v-btn class="ma-6 white--text" @click="reset" color="#EEEEEE  " width="100">Reset</v-btn> -->
                                     <v-btn class="ma-2" @click="newData" color="accent" width="100">Submit</v-btn>
                                     <!-- <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
                                     <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn> -->
@@ -393,7 +386,7 @@
                                                         dense></v-text-field>
                                                     </div>
                                                 </div>
-                                                <div style="display:flex; flex-direction:row; align-items:center;">
+                                                <!-- <div style="display:flex; flex-direction:row; align-items:center;">
                                                     <div style="flex:1">
                                                         <label>Waktu Input</label>
                                                     </div>
@@ -405,7 +398,7 @@
                                                         outlined
                                                         dense></v-text-field>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div style="display:flex; flex-direction:row; align-items:center;">
                                                     <div style="flex:1">
                                                         <label>Kategori</label>
@@ -466,7 +459,7 @@
                                         </v-card-text>
                                         <v-card-actions>
                                             <v-spacer></v-spacer>
-                                            <v-btn class="ma-6 white--text" color="#EEEEEE"  @click="dialog = false" width="100">Close</v-btn>
+                                            <!-- <v-btn class="ma-6 white--text" color="#EEEEEE"  @click="dialog = false" width="100">Close</v-btn> -->
                                             <v-btn class="ma-2" @click="updateData" color="accent" width="100">Edit</v-btn>
                                         </v-card-actions>
                                     </v-card>
@@ -502,7 +495,7 @@ export default {
         return{
             tag_negara: [],
             itemCountry: [],
-            kategoris: ['PWNI', 'Terorisme', 'Kejahatan Lintas Batas', 'Separatisme', 'BDI', 'Laporan Bulanan'],
+            kategoris: ['PWNI', 'Terorisme', 'Kejahatan Lintas Batas', 'Separatisme', 'BDI'],
             plusInput: true,
             menu: false,
             valid:true,
@@ -574,6 +567,7 @@ export default {
                 foto: [ v => !!v || 'Foto is required'],
                 caption: [ v => !!v || 'Caption is required'],
                 informasi: [ v => !!v || 'Informasi is required'],
+                fileDokumen: [ v => !!v || 'File Dokumen is required'],
             },
             dataInputEdit: new FormData(),
             dataInput: new FormData(),
@@ -811,7 +805,19 @@ export default {
             this.dataDetail = {};
         },
         reset() {
+            this.tags = []
+            this.dataInput= new FormData()
             this.$refs.form.reset()
+            this.dataNew ={
+                    country:[],
+                    heading:"",
+                    createdAt:"",
+                    kategori:"",
+                    tags:[],
+                    foto:new FormData(),
+                    caption:"",
+                    informasi:"<h1>Some initial content</h1>",
+                }
         },
         contentDetail(item){
             this.dataDetail.foto = 'http://api.dolphinesia.com/uploads/'+item.foto

@@ -1,17 +1,18 @@
 <template>
-    <v-footer v-if="role == 'ADMIN'" style="background-color: #E0E0E0" class="rounded-lg ">
+    <v-footer v-if="role == 'ADMIN'" style="background-color: #a6a6a6" class="rounded-lg ">
       <v-spacer></v-spacer>
       <div>One Mission BIN v.1.0.0</div>
     </v-footer>
 
-    <v-footer v-else padless class="rounded-lg mx-3 mb-2 mt-n3">
+    <v-footer v-else padless style="background-color: #a6a6a6" class="rounded-lg mx-3 mb-2 mt-n3">
       <v-col
       class="text-center"
       cols="12"
       >
-      ONE MISSION <br>
+      BADAN INTELEJEN NEGARA ~ ONE MISSION 2020
+      <!-- ONE MISSION <br>
       BADAN INTELIJEN NEGARA INDONESIA <br>
-      2020
+      2020 -->
       </v-col>
     </v-footer>
 </template>
