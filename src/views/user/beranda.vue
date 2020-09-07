@@ -43,18 +43,18 @@
                         <v-img
                           height="200"
                           width="300"
-                          :src="'http://api.dolphinesia.com/uploads/'+ item.foto"
+                          :src="'http://api.dolphinesia.com/uploads/'+ item[0].foto"
                         ></v-img>
                       </v-col>
                       <v-col class="judul d-flex align-top justify-center" md="8" cols="8">
                         <v-card-text class="headline">
-                          {{ item.heading }}
+                          {{ item[0].heading }}
                           <br />
                             <v-card-subtitle class="ml-n4">
-                                <span>{{ item.createdAt | date }}</span>
+                                <span>{{ item[0].createdAt | date }}</span>
                             </v-card-subtitle>
                           <!-- <v-col class="" md="8" cols="8"> -->
-                            <v-btn @click="detailBerita(item)"  color="primary">
+                            <v-btn @click="detailBerita(item[0])"  color="primary">
                             Lihat
                                 <v-icon>mdi-arrow-right</v-icon>
                              </v-btn>
@@ -74,7 +74,7 @@
 
           <v-col class="ml-n2" md="4" cols="12">
             <v-card elevation="0">
-              <v-row class="mt-n3">
+              <v-row class="mt-n3" v-if="item[1] != undefined">
                 <v-col md="12" cols="12">
                   <v-card height="200" class="grey lighten-4 rounded-xl" style="">
                     <v-row>
@@ -85,7 +85,7 @@
                               <v-img
                                 height="150"
                                 width="200"
-                                :src="'http://api.dolphinesia.com/uploads/'+ item.foto"
+                                :src="'http://api.dolphinesia.com/uploads/'+ item[1].foto"
                               ></v-img>
                             </v-col>
                             <v-col
@@ -96,14 +96,14 @@
                               <v-card-text class="text-subtitle-1">
                                     <div class="parent mb-n3">
                                         <div class="block-ellipsis">
-                                            {{ item.heading }}
+                                            {{ item[1].heading }}
                                             </div>
                                     </div>
                                     <v-card-subtitle class="ml-n4">
-                                        <span>{{ item.createdAt | date }}</span>
+                                        <span>{{ item[1].createdAt | date }}</span>
                                     </v-card-subtitle>
 
-                                    <v-btn @click="detailBerita(item)" color="primary">
+                                    <v-btn @click="detailBerita(item[1])" color="primary">
                                     Lihat
                                     <v-icon>mdi-arrow-right</v-icon>
                                     </v-btn>
@@ -117,7 +117,7 @@
                 </v-col>
               </v-row>
 
-              <v-row class="mt-n6 ml-n2">
+              <v-row class="mt-n6 ml-n2" v-if="item[2] != undefined">
                 <v-col md="12" cols="12">
                   <v-card height="200" class="grey lighten-4 rounded-xl" style="margin-top: 10px;">
                     <v-row>
@@ -130,12 +130,12 @@
                               cols="8"
                             >
                               <v-card-text class="text-subtitle-1">
-                                <div class="block-ellipsis mb-n3">{{ item.heading }} </div>
+                                <div class="block-ellipsis mb-n3">{{ item[2].heading }} </div>
 
                                 <v-card-subtitle class="ml-n4">
-                                        <span>{{ item.createdAt | date }}</span>
+                                        <span>{{ item[2].createdAt | date }}</span>
                                     </v-card-subtitle>
-                                <v-btn @click="detailBerita(item)" color="primary">
+                                <v-btn @click="detailBerita(item[2])" color="primary">
                                   Lihat
                                   <v-icon>mdi-arrow-right</v-icon>
                                 </v-btn>
@@ -145,7 +145,7 @@
                               <v-img
                                 height="150"
                                 width="200"
-                                :src="'http://api.dolphinesia.com/uploads/'+ item.foto"
+                                :src="'http://api.dolphinesia.com/uploads/'+ item[2].foto"
                               ></v-img>
                             </v-col>
                           </v-row>
@@ -312,7 +312,23 @@ export default {
       let user = JSON.parse(localStorage.getItem("descUser"))
       ApiBin.get("Konten/getByCountry?country="+ user[0].countryId).then((resp) => {
         // console.log(resp.data)
-        this.content = resp.data.data;
+        let data =  resp.data.data;
+
+        let count = 1;
+        let temp = []
+        let newRes = []
+        for (let index = 0; index < data.length; index++) {
+          if(count == 4){
+            count= 1;
+            temp=[]
+          }
+          temp.push(data[index]);
+          count == 3 ? newRes.push(temp) : null;
+          index == data.length-1 ? newRes.push(temp) : null;
+          count = count+1;
+        }
+
+        this.content = newRes;
         console.log("konten by country")
         console.log(this.content);
       });
