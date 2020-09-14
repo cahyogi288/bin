@@ -744,15 +744,10 @@ export default {
                         // $.each(this.tag_negara, function(key, value) {
                         //     this.countryList.data.push({name : key});
                         // });
-
-                        
-                        // this.$refs.file1.forEach((value, index)=> {
-                        //     console.log(value.files[0])
-                        // })
-                        console.log(this.tags)
-                        console.log(this.tag_negara)
-                        console.log( countryS)
-                        console.log( tag)
+                        // console.log(this.tags)
+                        // console.log(this.tag_negara)
+                        // console.log( countryS)
+                        // console.log( tag)
                         this.dataInput.append('country',JSON.stringify(countryS))
                         this.dataInput.append('heading', this.dataNew.heading)
                         this.dataInput.append('createdAt',this.dataNew.createdAt)
@@ -761,25 +756,44 @@ export default {
                         this.dataInput.append('caption',this.dataNew.caption)
                         this.dataInput.append('informasi',this.dataNew.informasi)
                         this.dataInput.append('sub_heading','')
-                        console.log(this.dataInput)
+                        // console.log(this.dataInput)
 
                     // }
                     // console.log(this.dataNew)
-                        // ApiBin.post('Konten/create', this.dataInput).then( resp => {
-                        //     console.log(resp)
-                        //     // this.tag_negara = []
-                        //     // this.tags = []
-                        //     // this.$refs.file.value = null;
-                        //     // this.$refs.file1.value = null;
-                        //     // this.$refs.form.reset()                 
-                        //     // this.dataInput= new FormData()
-                        //     // this.dataNew.informasi = '<h1>Some initial content</h1>'
-                        //     this.getDataKonten()
-                        //     this.dialog = false
-                        //     this.textSnack = 'Data Berhasil ditambahkan'
-                        //     this.snackbar = true
-                        //     // if(resp.data)
-                        // })
+                        ApiBin.post('Konten/create', this.dataInput).then( resp => {
+                            console.log(resp)
+                            let id_content = resp.data.data.id_konten
+                            if(resp.data.status == 200){
+
+                                let docs = []                              
+                                
+                                this.$refs.file1.forEach((value, index)=> {
+                                    let multipleUpload = new FormData()
+                                    console.log(value.files[0])
+                                    multipleUpload.append('id_konten', id_content)
+                                    multipleUpload.append('file', value.files[0])
+                                    ApiBin.post('Konten/docinsert', multipleUpload)
+                                    .then( response => {
+                                        console.log(response)
+                                        this.getDataKonten()
+                                        this.dialog = false
+                                        this.textSnack = 'Data Berhasil ditambahkan'
+                                        this.snackbar = true
+                                    })
+                                    // docs.push({ file: value.files[0] })
+                                })
+                                
+                            }
+                            // this.tag_negara = []
+                            // this.tags = []
+                            // this.$refs.file.value = null;
+                            // this.$refs.file1.value = null;
+                            // this.$refs.form.reset()                 
+                            // this.dataInput= new FormData()
+                            // this.dataNew.informasi = '<h1>Some initial content</h1>'
+                            
+                            // if(resp.data)
+                        })
                     }
                 }
             }
