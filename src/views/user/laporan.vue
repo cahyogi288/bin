@@ -196,8 +196,8 @@ export default {
         { title: "Terorisme", link: "/terorisme" },
         { title: "Kejahatan Lintas Batas", link: "/kejahatan" },
         { title: "Separatisme", link: "/separatisme" },
-        { title: "BDI", link: "/bdi" },
-        // { title: 'Laporan Bulanan', link: '/laporan' }
+        { title: "BDI", link: "/bdi", },
+        { title: 'Laporan Bulanan', link: '/laporan' }
       ],
       bulans: [
         { id: "01", name: "January" },
@@ -244,11 +244,21 @@ export default {
   },
   methods: {
     kategorii(kategori) {
-      localStorage.setItem("namaContent", kategori);
-      if (this.$router.history.current.fullPath == "/kategori") {
-        this.$router.go();
-      } else {
-        this.$router.replace({ path: "/kategori" });
+      let tahun = 2020
+      localStorage.setItem("namaContent", kategori)
+      localStorage.setItem('tahun', tahun)
+      if(kategori == 'Laporan Bulanan'){
+        if (this.$router.history.current.fullPath == "/laporan") {
+          this.$router.go();
+        } else {
+          this.$router.replace({ path: "/laporan" });
+        }
+      }else{
+        if (this.$router.history.current.fullPath == "/kategori") {
+          this.$router.go();
+        } else {
+          this.$router.replace({ path: "/kategori" });
+        }
       }
     },
     detailBerita(content) {

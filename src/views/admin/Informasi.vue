@@ -193,12 +193,23 @@
                                                 dense></v-text-field>
                                             </div>
                                         </div>
-                                        <div style="display:flex; flex-direction:row; align-items:center; margin-bottom:20px;">
-                                            <div style="flex:1">
-                                                <label>File Dokumen</label>
-                                            </div>
+                                        <div v-for="(item, i) in multiUpl" :key="i" style="display:flex; flex-direction:row; align-items:center; margin-bottom:20px;">
                                             <div style="flex:3">
-                                                <input ref="file1" :rules="validForm.fileDokumen" type="file" @change="fileDokumen" accept=".pdf" class="in" placeholder="File...">
+                                                <label>File Dokumen {{ i+1 }}</label>
+                                            </div>
+                                            <div style="flex:8;">
+                                                <!-- :rules="validForm.fileDokumen" -->
+                                                <input ref="file1" multiple="true"  type="file" @change="fileDokumen($event, i)" accept=".pdf" class="in" placeholder="File...">
+                                            </div>
+                                            <div v-if="i == 0" style="flex:1">
+                                                <v-btn icon color="info" @click="addColumn">
+                                                    <v-icon>mdi-plus</v-icon>
+                                                </v-btn>
+                                            </div>
+                                            <div v-if="i > 0" style="flex:1">
+                                                <v-btn icon color="red" @click="removeColumn(item, i)">
+                                                    <v-icon>mdi-close</v-icon>
+                                                </v-btn>
                                             </div>
                                         </div>
                                         <div style="display:flex; flex-direction:row; align-items:center; margin-bottom:30px;">
@@ -526,7 +537,7 @@ export default {
         return{
             tag_negara: [],
             itemCountry: [],
-            kategoris: ['PWNI', 'Terorisme', 'Kejahatan Lintas Batas', 'Separatisme', 'BDI'],
+            kategoris: ['PWNI', 'Terorisme', 'Kejahatan Lintas Batas', 'Separatisme', 'BDI', 'Laporan Bulanan'],
             plusInput: true,
             menu: false,
             valid:true,
@@ -539,7 +550,8 @@ export default {
                 'baseline',
                 'auto',
                 'stretch',
-            ],  
+            ],
+            multiUpl: [],
             dialog: false,
             dialogDetail: false,
             dialogEdit: false,
@@ -652,11 +664,16 @@ export default {
                 if(this.$refs.file1){
                     this.$refs.file1.value = null;
                 }
+                this.multiUpl = []
                 this.tags = []
                 this.tag_negara = []
                 this.dataNew.informasi = '<h1>Some initial content</h1>'
                 this.$refs.form.reset()
                 this.dialog = false
+            }else{
+                this.multiUpl.push(
+                    { fileDokumen: ''}
+                )
             }
         }
     },
@@ -684,9 +701,15 @@ export default {
         },
         newData(){
             const file = this.$refs.file.files[0];
-            const file1 = this.$refs.file1.files[0];
+            const file1 = this.$refs.file1;
             const lengthTags = this.tags.length
-            if(!file || !file1){
+            var empty = 0
+            this.$refs.file1.forEach((value, index)=> {
+                if(value.files.length == 0){
+                    empty = empty + 1
+                }
+            })
+            if(!file || empty > 0){
                 alert('Harap pilih file')
             }else{
                 if(lengthTags < 1){
@@ -721,6 +744,11 @@ export default {
                         // $.each(this.tag_negara, function(key, value) {
                         //     this.countryList.data.push({name : key});
                         // });
+
+                        
+                        // this.$refs.file1.forEach((value, index)=> {
+                        //     console.log(value.files[0])
+                        // })
                         console.log(this.tags)
                         console.log(this.tag_negara)
                         console.log( countryS)
@@ -737,25 +765,41 @@ export default {
 
                     // }
                     // console.log(this.dataNew)
-                        ApiBin.post('Konten/create', this.dataInput).then( resp => {
-                            console.log(resp)
-                            // this.tag_negara = []
-                            // this.tags = []
-                            // this.$refs.file.value = null;
-                            // this.$refs.file1.value = null;
-                            // this.$refs.form.reset()                 
-                            // this.dataInput= new FormData()
-                            // this.dataNew.informasi = '<h1>Some initial content</h1>'
-                            this.getDataKonten()
-                            this.dialog = false
-                            this.textSnack = 'Data Berhasil ditambahkan'
-                            this.snackbar = true
-                            // if(resp.data)
-                        })
+                        // ApiBin.post('Konten/create', this.dataInput).then( resp => {
+                        //     console.log(resp)
+                        //     // this.tag_negara = []
+                        //     // this.tags = []
+                        //     // this.$refs.file.value = null;
+                        //     // this.$refs.file1.value = null;
+                        //     // this.$refs.form.reset()                 
+                        //     // this.dataInput= new FormData()
+                        //     // this.dataNew.informasi = '<h1>Some initial content</h1>'
+                        //     this.getDataKonten()
+                        //     this.dialog = false
+                        //     this.textSnack = 'Data Berhasil ditambahkan'
+                        //     this.snackbar = true
+                        //     // if(resp.data)
+                        // })
                     }
                 }
             }
             
+        },
+        removeColumn(item, i) {
+            var index = this.multiUpl.indexOf(item);
+            // var index2 = this.$refs.file1.indexOf(item)
+            console.log(index+ ' ' + i)
+            if (index !== -1) {
+                this.multiUpl.splice(index, 1);
+                this.$refs.file1.splice(index, -1)
+                this.$refs.file1[index].value = ''
+            }
+            console.log(this.$refs.file1)
+        },
+        addColumn(){
+            this.multiUpl.push(
+                {fileDokumen: ''}
+            )
         },
         actionDelete(item){
             console.log(item)
@@ -922,18 +966,22 @@ export default {
             })
         },
         images(event) {
-                    console.log(event.target.files[0]);
-                    this.dataInput.append('foto',event.target.files[0])
+            console.log(event.target.files[0]);
+            this.dataInput.append('foto',event.target.files[0])
         },
-        fileDokumen(event) {
-                    console.log(event.target.files[0]);
-                    this.dataInput.append('doc',event.target.files[0])
+        fileDokumen(event, i) {
+            // console.log(event)
+            console.log(this.$refs.file1)
+            // let file = event.target.files
+
+            // console.log(event.target.files[0]);
+            // this.dataInput.append('doc',event.target.files[0])
         },
         imagesEdit(event) {
-                    // console.log(event.target.files[0]);
-                    // this.targetFilesEdit = event.target.files[0];
-                    this.dataInputEdit.append('foto',event.target.files[0])
-                    this.dataUpdateFoto = true;
+            // console.log(event.target.files[0]);
+            // this.targetFilesEdit = event.target.files[0];
+            this.dataInputEdit.append('foto',event.target.files[0])
+            this.dataUpdateFoto = true;
         }
     }
     
