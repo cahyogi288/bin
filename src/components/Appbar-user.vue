@@ -115,6 +115,7 @@ export default {
                 { title: 'Terorisme', link: '/terorisme' },
                 { title: 'Kejahatan Lintas Batas', link: '/kejahatan' },
                 { title: 'Separatisme', link: '/separatisme' },
+                // { title: 'Laporan Bulanan', link: '/laporan'}
             ],
             items2: [
                 { title: '2020',  },
@@ -137,9 +138,7 @@ export default {
                     this.$router.go()
                 }else{
                     this.$router.replace({ path: '/kategori' })
-                }
-                
-            
+                }            
             // this.$emit('name', nameContent)
         },
         sendTahun(tahun){
