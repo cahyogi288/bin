@@ -196,7 +196,7 @@
                       <v-col md="12" cols="12">
                         <div class="text-body-1" v-html="contentDetail.informasi"></div>
                         
-                          <p><a :href="'http://api.dolphinesia.com/uploads/'+contentDetail.document" download="file_dokumen"  target="_blank">Download</a></p>
+                          <p v-for="(item, i) in docs" :key="i"><a :href="'http://api.dolphinesia.com/uploads/'+item.nama_file" download="file_dokumen"  target="_blank">{{item.nama_file}}</a></p>
                       </v-col>
                     </v-row>
                   </v-card-title>
@@ -276,6 +276,7 @@ export default {
       rowDetail: false,
       content: [],
       contentDetail: [],
+      docs: [],
       kategori: "",
       kategoris: [
         { title: "PWNI", link: "/pwni" },
@@ -283,7 +284,7 @@ export default {
         { title: "Kejahatan Lintas Batas", link: "/kejahatan" },
         { title: "Separatisme", link: "/separatisme" },
         { title: "BDI", link: "/bdi" },
-        // { title: 'Laporan Bulanan', link: '/laporan' }
+        { title: 'Laporan Bulanan', link: '/laporan' }
       ],
     };
   },
@@ -309,15 +310,28 @@ export default {
     detailBerita(content) {
       console.log(content);
       this.contentDetail = content;
-      this.rowDetail = true;
+      let id_content = content.id
+      ApiBin.get('Konten/getDoc/' + id_content).then( resp => {
+        console.log(resp)
+        this.docs = resp.data.data
+        this.rowDetail = true
+      })
+      
     },
     kategorii(kategori) {
+      let tahun = 2020
       localStorage.setItem("namaContent", kategori);
+      localStorage.setItem('tahun', tahun)
       console.log(kategori);
+      if(kategori == 'Laporan Bulanan'){
+        this.$router.replace({ path: "/laporan" });
+      }else{
+
       // if(this.$router.history.current.fullPath == '/beranda'){
       // this.$router.go()
       // }else{
-      this.$router.replace({ path: "/kategori" });
+        this.$router.replace({ path: "/kategori" });
+      }
       // }
     },
     getContentByCountry() {
