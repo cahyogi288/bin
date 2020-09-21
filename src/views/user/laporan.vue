@@ -269,8 +269,9 @@ export default {
     },
     getData() {
       let user = JSON.parse(localStorage.getItem("descUser"))
-      let kategori = localStorage.getItem("tahun");
-      ApiBin.get("Konten/getByCountry?country="+user[0].countryId+"&tahun=" + kategori).then((resp) => {
+      let tahun = localStorage.getItem("tahun");
+      // getBy?tahun=2020&country=AF&category=PWNI
+      ApiBin.get("Konten/getBy?tahun="+ tahun + "&country="+ user[0].countryId +"&category=Laporan Bulanan").then((resp) => {
         console.log(resp.data);
         this.content = resp.data.data;
         this.contentFilter = resp.data.data;

@@ -67,6 +67,9 @@
                                 
                                 <v-card-text>
                                 <v-container v-if="plusInput">
+                                    <v-overlay :value="overlay">
+                                        <v-progress-circular indeterminate size="64"></v-progress-circular>
+                                    </v-overlay>
                                     <v-form
                                     ref="form"
                                     v-model="valid"
@@ -110,7 +113,7 @@
                                                 dense></v-text-field>
                                             </div>
                                         </div>
-                                        <!-- <div style="display:flex; flex-direction:row; align-items:center;">
+                                        <div style="display:flex; flex-direction:row; align-items:center;">
                                             <div style="flex:1">
                                                 <label>Waktu Input</label>
                                             </div>
@@ -144,7 +147,7 @@
                                                     </v-date-picker>
                                                 </v-menu>
                                             </div>
-                                        </div> -->
+                                        </div>
                                         <div style="display:flex; flex-direction:row; align-items:center;">
                                             <div style="flex:1">
                                                 <label>Kategori</label>
@@ -541,6 +544,7 @@ export default {
             plusInput: true,
             menu: false,
             valid:true,
+            overlay: false,
             dataKonten: [],
             content: "<h1>Some initial content</h1>",
             justify: [
@@ -763,6 +767,7 @@ export default {
                         ApiBin.post('Konten/create', this.dataInput).then( resp => {
                             console.log(resp)
                             let id_content = resp.data.data.id_konten
+                            this.overlay = true
                             if(resp.data.status == 200){
 
                                 let docs = []                              
@@ -775,6 +780,7 @@ export default {
                                     ApiBin.post('Konten/docinsert', multipleUpload)
                                     .then( response => {
                                         console.log(response)
+                                        this.overlay = false
                                         this.getDataKonten()
                                         this.dialog = false
                                         this.textSnack = 'Data Berhasil ditambahkan'

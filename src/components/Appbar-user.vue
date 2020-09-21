@@ -68,11 +68,11 @@
             </template>
             <v-list>
                 <v-list-item
-                v-for="(item, index) in items2"
+                v-for="(item, index) in listTahun"
                 :key="index"
-                @click="sendTahun(item.title)"
+                @click="sendTahun(item.tahun)"
                 >
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item-title>{{ item.tahun }}</v-list-item-title>
                 </v-list-item>
             </v-list>
         </v-menu>
@@ -104,12 +104,15 @@
 </template>
 
 <script>
+import { ApiBin } from "@/api/base_api";
+
 export default {
     data() {
         return {
             expand: false,
             detailOff: false,
             listRight: ["Logout"],
+            listTahun: [],
             items: [
                 { title: 'PWNI', link: '/bdi' },
                 { title: 'Terorisme', link: '/terorisme' },
@@ -124,6 +127,9 @@ export default {
                 { title: '2017' },
             ],
         }
+    },
+    created () {
+        this.getTahun();
     },
     methods: {
         offDetail(){
@@ -152,6 +158,13 @@ export default {
             } else{
                 this.$router.replace({ path: '/laporan' })
             }         
+        },
+        getTahun(){
+            ApiBin.get('Konten/yearList').then( resp => {
+                console.log(resp)
+                let res = resp.data.data
+                this.listTahun = res
+            })
         },
         logout() {
             localStorage.removeItem('descUser')
