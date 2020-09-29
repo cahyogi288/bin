@@ -46,7 +46,7 @@
                       </v-col>
                       <v-col md="8" cols="8">
                         <v-card-title>
-                          <span>{{ item.heading }}</span>
+                          <span style="word-break:normal;">{{ item.heading }}</span>
                         </v-card-title>
                         <v-card-subtitle>
                           <span>{{ item.createdAt | date}}</span>
