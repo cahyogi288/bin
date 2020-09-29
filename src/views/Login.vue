@@ -198,6 +198,7 @@ export default {
                     console.log(resp.data)
                     if(resp.data.error == false){
                         let res = resp.data.data
+                        let token = res.token
                         let descUser = []
                         descUser.push({
                             nim: res.nik,
@@ -207,6 +208,7 @@ export default {
                             countryName: res.countryName
                             })
                         localStorage.setItem('descUser', JSON.stringify(descUser))
+                        localStorage.setItem('token',token)
                         // console.log(descUser)
                         
                         if(descUser[0].status == 'PEGAWAI'){

@@ -9,10 +9,10 @@ export const ApiBin = axios.create({
 
 ApiBin.interceptors.request.use(
     config => {
-        //   config.headers = {
-        //     'Authorization': 'Bearer ' + localStorage.getItem("token"),
-        //     'appsource': 'AIRSPACE_WEB'
-        //   };
+        config.headers = {
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            //     'appsource': 'AIRSPACE_WEB'
+        };
         return config;
     },
     error => Promise.reject(error)

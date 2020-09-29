@@ -168,6 +168,7 @@ export default {
         },
         logout() {
             localStorage.removeItem('descUser')
+            localStorage.removeItem('token')
             this.$router.push({ path: '/' })
         }
     },
