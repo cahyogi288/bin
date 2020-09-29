@@ -47,7 +47,7 @@
                         ></v-img>
                       </v-col>
                       <v-col class="judul d-flex align-top justify-center" md="8" cols="8">
-                        <v-card-text class="headline">
+                        <v-card-text class="headline" style="word-break:normal;">
                           {{ item[0].heading }}
                           <br />
                             <v-card-subtitle class="ml-n4">
@@ -98,7 +98,7 @@
                             >
                               <v-card-text class="text-subtitle-1">
                                     <div class="parent mb-n3">
-                                        <div class="block-ellipsis">
+                                        <div class="block-ellipsis" style="word-break:normal;">
                                             {{ item[1].heading }}
                                             </div>
                                     </div>
@@ -133,7 +133,7 @@
                               cols="8"
                             >
                               <v-card-text class="text-subtitle-1">
-                                <div class="block-ellipsis mb-n3">{{ item[2].heading }} </div>
+                                <div class="block-ellipsis mb-n3" style="word-break:normal;">{{ item[2].heading }} </div>
 
                                 <v-card-subtitle class="ml-n4">
                                         <span>{{ item[2].createdAt | date }}</span>
