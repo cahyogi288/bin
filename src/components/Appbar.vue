@@ -47,7 +47,7 @@ export default {
         logout() {
             localStorage.removeItem('descUser')
             localStorage.removeItem('token')
-            this.$router.replace({ path : '/' })
+            this.$router.replace({ path : '/login' })
         }
     },
 }

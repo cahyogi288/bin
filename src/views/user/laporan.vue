@@ -263,16 +263,19 @@ export default {
       }
     },
     detailBerita(content) {
-      console.log(content);
-      this.contentDetail = content;
-      this.rowDetail = true;
+      // console.log(content);
+      // this.contentDetail = content;
+      // this.rowDetail = true;
+      localStorage.setItem('contentDetail', JSON.stringify(content))
+      let id_content = content.id
+      this.$router.push({ path: '/detail'})
     },
     getData() {
       let user = JSON.parse(localStorage.getItem("descUser"))
       let tahun = localStorage.getItem("tahun");
       // getBy?tahun=2020&country=AF&category=PWNI
       ApiBin.get("Konten/getBy?tahun="+ tahun + "&country="+ user[0].countryId +"&category=Laporan Bulanan").then((resp) => {
-        console.log(resp.data);
+        // console.log(resp.data);
         this.content = resp.data.data;
         this.contentFilter = resp.data.data;
 

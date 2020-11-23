@@ -277,8 +277,11 @@ export default {
   methods: {
     detailBerita(content) {
       // console.log(content)
-      this.contentDetail = content;
-      this.rowDetail = true;
+      // this.contentDetail = content;
+      localStorage.setItem('contentDetail', JSON.stringify(content))
+      let id_content = content.id
+      this.$router.push({ path: '/detail'})
+      // this.rowDetail = true;
     },
     kategorii(kategori) {
       let tahun = 2020
@@ -306,7 +309,7 @@ export default {
         this.content = resp.data.data;
         this.oldData = resp.data.data;
         this.countContent = this.content.length;
-        console.log(this.content);
+        // console.log(this.content);
       });
     },
     onChange() {

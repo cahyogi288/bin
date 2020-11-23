@@ -1,7 +1,7 @@
 <template>
     <v-app style="background-color: #E0E0E0">
-        <Sidebar/>
-        <Appbar />
+        <!-- <Sidebar/>
+        <Appbar /> -->
         <!-- <template>
             <v-breadcrumbs :items="items">
                 <template v-slot:item="{ item }">
@@ -438,7 +438,7 @@
             </v-container>
         </v-main>
     
-        <Footer />
+        <!-- <Footer /> -->
     </v-app>
 </template>
 
@@ -563,7 +563,7 @@ export default {
         newData(){
             if(this.$refs.form.validate()){
                 ApiBin.post('User/insertUser', this.dataNew).then( resp => {
-                    console.log(resp)
+                    // console.log(resp)
                     this.getAllUser()
                     this.$refs.form.reset()
                     this.dialog = false
@@ -587,7 +587,7 @@ export default {
         },
         getAllUser() {
             ApiBin.get('User/getUser').then( resp => {
-                console.log(resp.data.data)
+                // console.log(resp.data.data)
                 this.dataUser = resp.data.data
             })
         },
@@ -606,7 +606,7 @@ export default {
         updateData(){
             if(this.$refs.formEdit.validate()){
                 ApiBin.post('User/updateUser', this.dataEdit).then( resp => {
-                    console.log(resp)
+                    // console.log(resp)
                     this.getAllUser()
                     this.dialogEdit = false
                     this.text = 'Data Berhasil diubah'
@@ -623,7 +623,7 @@ export default {
                     password: this.password
                 }
                 ApiBin.post('User/editPass', data).then( resp => {
-                    console.log(resp.data)
+                    // console.log(resp.data)
                     if(resp.data.data == true){
                         this.text = 'Password Telah diubah'
                         this.snackbar = true
@@ -643,14 +643,14 @@ export default {
         },
         deleteData(){
             ApiBin.get('User/deleteUser?id=' + parseInt(this.deleteById)).then( resp => {
-                console.log(resp)
+                // console.log(resp)
                 this.getAllUser()
                 this.dialogDelete = false
             })
         },
         getCountry(){
             ApiBin.get('Country/getCountry').then( resp => {
-                console.log(resp.data)
+                // console.log(resp.data)
                 this.itemCountry = resp.data.data
             })
         }

@@ -195,7 +195,7 @@ export default {
         onLogin() {
             if(this.$refs.form.validate()){
                 ApiBin.post('Auth/login', this.formLogin).then( resp => {
-                    console.log(resp.data)
+                    // console.log(resp.data)
                     if(resp.data.error == false){
                         let res = resp.data.data
                         let token = res.token
@@ -215,7 +215,7 @@ export default {
                             // console.log(descUser)
                             this.$router.replace({ path: '/beranda' })
                         }else if(descUser[0].status == 'ADMIN'){
-                            this.$router.replace({ path: '/home' })
+                            this.$router.replace({ path: '/' })
                         }
                     }else{
                         this.text = resp.data.message
@@ -231,7 +231,7 @@ export default {
                     username: this.username
                 }
                 ApiBin.post('User/resetPass', data).then( resp => {
-                    console.log(resp.data)
+                    // console.log(resp.data)
                     this.dialogForgot = false
                 })
             }

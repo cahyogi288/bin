@@ -58,12 +58,12 @@ export default {
         return {
             drawer: true,
             items: [
-            { title: 'Beranda', icon: 'mdi-home', link: '/home' },
+            { title: 'Beranda', icon: 'mdi-home', link: '/' },
             { title: 'Pengguna', icon: 'mdi-account-plus', link: '/hakakses' },
             { title: 'Informasi', icon: 'mdi-alert-circle', link: 'informasi' },
             ],
             links: [
-                { name:'Beranda', link: '/home'},
+                { name:'Beranda', link: '/'},
                 { name: 'Pengguna', link: '/hakakses' },
                 { name: 'Informasi', link: '/informasi' }
                 ],

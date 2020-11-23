@@ -14,8 +14,8 @@
 </style>
 <template>
     <v-app style="background-color: #E0E0E0">
-        <Sidebar/>
-        <Appbar />
+        <!-- <Sidebar/>
+        <Appbar /> -->
 
         <v-snackbar
         v-model="snackbar"
@@ -516,7 +516,7 @@
 
             </v-container>
         </v-main>
-        <Footer />
+        <!-- <Footer /> -->
     </v-app>
 </template>
 
@@ -765,7 +765,7 @@ export default {
                     // }
                     // console.log(this.dataNew)
                         ApiBin.post('Konten/create', this.dataInput).then( resp => {
-                            console.log(resp)
+                            // console.log(resp)
                             let id_content = resp.data.data.id_konten
                             this.overlay = true
                             if(resp.data.status == 200){
@@ -779,7 +779,7 @@ export default {
                                     multipleUpload.append('file', value.files[0])
                                     ApiBin.post('Konten/docinsert', multipleUpload)
                                     .then( response => {
-                                        console.log(response)
+                                        // console.log(response)
                                         this.overlay = false
                                         this.getDataKonten()
                                         this.dialog = false
@@ -822,13 +822,13 @@ export default {
             )
         },
         actionDelete(item){
-            console.log(item)
+            // console.log(item)
             this.deleteById = item.id
             this.dialogDelete = true
         },
         deleteData(){
             ApiBin.get('Konten/delete?id=' + parseInt(this.deleteById)).then( resp => {
-                console.log(resp)
+                // console.log(resp)
                 this.getDataKonten()
                 this.dialogDelete = false
             })
@@ -870,7 +870,7 @@ export default {
                         apiUpdateData ='Konten/upload'
                     }
                     ApiBin.post(apiUpdateData, this.dataInputEdit).then( resp => {
-                        console.log(resp)
+                        // console.log(resp)
                         this.getDataKonten()
                         this.dialogEdit = false
                         this.dataEdit={
@@ -970,18 +970,18 @@ export default {
                     this.dataDetail.country.push(value.name)
             });
             this.dataDetail.caption = item.caption
-            console.log(this.dataDetail)
+            // console.log(this.dataDetail)
             this.dialogDetail = true
         },
         getDataKonten(){
             ApiBin.get('Konten/getAll').then( resp => {
-                console.log(resp.data)
+                // console.log(resp.data)
                 this.dataKonten = resp.data.data
             })
         },
         getCountry(){
             ApiBin.get('Country/getCountry').then( resp => {
-                console.log(resp.data)
+                // console.log(resp.data)
                 this.itemCountry = resp.data.data
             })
         },

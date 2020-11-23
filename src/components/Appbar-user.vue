@@ -143,7 +143,7 @@ export default {
                 if(this.$router.history.current.fullPath == '/kategori'){
                     this.$router.go()
                 }else{
-                    this.$router.replace({ path: '/kategori' })
+                    this.$router.push({ path: '/kategori' })
                 }            
             // this.$emit('name', nameContent)
         },
@@ -156,12 +156,12 @@ export default {
             if(this.$router.history.current.fullPath == '/laporan'){
                 this.$router.go()
             } else{
-                this.$router.replace({ path: '/laporan' })
+                this.$router.push({ path: '/laporan' })
             }         
         },
         getTahun(){
             ApiBin.get('Konten/yearList').then( resp => {
-                console.log(resp)
+                // console.log(resp)
                 let res = resp.data.data
                 this.listTahun = res
             })
@@ -169,7 +169,7 @@ export default {
         logout() {
             localStorage.removeItem('descUser')
             localStorage.removeItem('token')
-            this.$router.push({ path: '/' })
+            this.$router.replace({ path: '/login' })
         }
     },
 }

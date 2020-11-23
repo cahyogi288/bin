@@ -163,98 +163,6 @@
           </div>
         </v-row>
 
-        <v-row class="" v-if="rowDetail">
-          <v-col md="8" cols="12" >
-            <v-card class="grey lighten-4">
-              <v-row>
-                <v-col class="mt-n3" md="12" cols="12">
-                  <v-card-title>
-                    <v-row>
-                      <v-col md="12" cols="12">
-                        <span>{{ contentDetail.heading }}</span>
-                        <br />
-                        <span class="text-subtitle-1">{{ contentDetail.createdAt }}</span>
-                      </v-col>
-                      <v-col md="12" cols="12">
-                        <!-- <v-img
-                                                class="mx-auto align-center justify-center"
-                                                height="200"
-                                                width="300"
-                                                src="https://cdn.vuetifyjs.com/images/cards/store.jpg"
-                        ></v-img>-->
-                        <div
-                          style="display: flex; flex-direction: column; align-items: center; justify-content: center;"
-                        >
-                          <img
-                            :src="'http://api.dolphinesia.com/uploads/'+contentDetail.foto"
-                            alt
-                            style="object-fit: cover; height:100%; width: 100%;"
-                          />
-                          <p>{{ contentDetail.caption }}</p>
-                        </div>
-                      </v-col>
-                      <v-col md="12" cols="12">
-                        <div class="text-body-1" v-html="contentDetail.informasi"></div>
-                        
-                          <p v-for="(item, i) in docs" :key="i"><a :href="'http://api.dolphinesia.com/uploads/'+item.nama_file" download="file_dokumen"  target="_blank">{{item.nama_file}}</a></p>
-                      </v-col>
-                    </v-row>
-                  </v-card-title>
-                </v-col>
-              </v-row>
-            </v-card>
-          </v-col>
-
-          <v-col md="4" cols="12">
-            <v-card elevation="0">
-              <v-col md="12" cols="12">
-                <v-card height="100" width="" class="grey lighten-4 mt-n3 justify-end align-end">
-                  <v-card-text>
-                    <v-form>
-                      <v-row>
-                        <v-col md="10" cols="10">
-                          <v-text-field
-                            background-color="white"
-                            placeholder="Cari..."
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-col>
-                        <v-col class="ml-n4" md="2" cols="2">
-                          <v-btn icon color="blue">
-                            <v-icon>mdi-magnify</v-icon>
-                          </v-btn>
-                        </v-col>
-                      </v-row>
-                    </v-form>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-
-              <v-col md="12" cols="12">
-                <v-card class="grey lighten-4 mt-n3" width="" elevation="0">
-                  <v-col md="12" cols="12">
-                    <!-- <span class="text-subtitle-1"><strong>Kategori</strong></span> -->
-                    <v-list class="grey lighten-4">
-                      <v-subheader>Kategori</v-subheader>
-                      <v-list-item-group v-model="kategori" color="primary">
-                        <v-list-item
-                          v-for="(item, i) in kategoris"
-                          @click="kategorii(item.title)"
-                          :key="i"
-                        >
-                          <v-list-item-content>
-                            <v-list-item-title v-html="item.title"></v-list-item-title>
-                          </v-list-item-content>
-                        </v-list-item>
-                      </v-list-item-group>
-                    </v-list>
-                  </v-col>
-                </v-card>
-              </v-col>
-            </v-card>
-          </v-col>
-        </v-row>
       </v-container>
     </v-main>
     <Footer />
@@ -299,6 +207,10 @@ export default {
   },
   mounted() {
     this.getContentByCountry();
+    
+    window.onpopstate = function(event) {
+      // alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+    }; 
   },
   computed: {
     countryName() {
@@ -308,21 +220,23 @@ export default {
   },
   methods: {
     detailBerita(content) {
-      console.log(content);
-      this.contentDetail = content;
+      // console.log(content);
+      localStorage.setItem('contentDetail', JSON.stringify(content))
+      // this.contentDetail = content;
       let id_content = content.id
-      ApiBin.get('Konten/getDoc/' + id_content).then( resp => {
-        console.log(resp)
-        this.docs = resp.data.data
-        this.rowDetail = true
-      })
+      // ApiBin.get('Konten/getDoc/' + id_content).then( resp => {
+        // console.log(resp)
+        // this.docs = resp.data.data
+        this.$router.push({ path: '/detail'})
+        // this.rowDetail = true
+      // })
       
     },
     kategorii(kategori) {
       let tahun = 2020
       localStorage.setItem("namaContent", kategori);
       localStorage.setItem('tahun', tahun)
-      console.log(kategori);
+      // console.log(kategori);
       if(kategori == 'Laporan Bulanan'){
         this.$router.replace({ path: "/laporan" });
       }else{
@@ -356,7 +270,7 @@ export default {
 
         this.content = newRes;
         console.log("konten by country")
-        console.log(this.content);
+        // console.log(this.content);
       });
     },
     // getAllContent() {

@@ -1,7 +1,7 @@
 <template>
     <v-app style="background-color: #E0E0E0">
-        <Sidebar/>
-        <Appbar />
+        <!-- <Sidebar/>
+        <Appbar /> -->
 
         <v-main>
             <v-container fluid>
@@ -94,7 +94,7 @@
                 </v-row>
             </v-container>
         </v-main>
-        <Footer />
+        <!-- <Footer /> -->
     </v-app>
 </template>
 
@@ -127,7 +127,7 @@ export default {
     methods: {
         getInformasi() {
             ApiBin.get('User/getTotal').then( resp => {
-                console.log(resp.data)
+                // console.log(resp.data)
                 this.dataInformasi.bdi = resp.data.data.bdi
                 this.dataInformasi.isu_bersama = resp.data.data.isu_bersama
                 this.dataInformasi.laporan_bulanan = resp.data.data.laporan_bulanan
